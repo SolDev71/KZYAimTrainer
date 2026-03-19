@@ -1484,6 +1484,18 @@
                 document.getElementById('lb-list').appendChild(div);
             });
         }
+document.addEventListener('keydown', function(event) {
+    if (event.key.toLowerCase() === 'r') {
+      
+        const abortBtn = document.getElementById('abort-btn');
+        const uiBar = document.getElementById('ui-bar');
+        
+
+        if (uiBar && !uiBar.classList.contains('hud-hidden')) {
+            endGame(true); 
+        }
+    }
+});
     </script>
 <div id="made-for-maria">made for <span>maria</span></div>
 </body>
