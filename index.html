@@ -492,6 +492,42 @@
         #kerwzy-watermark span { color: var(--btn-color); transition: all 0.4s ease; }
         #kerwzy-watermark:hover { opacity: 1; transform: translateY(-2px) scale(1.05); letter-spacing: 4px; }
         #kerwzy-watermark:hover span { text-shadow: 0 0 15px rgba(236, 72, 153, 0.8), 0 0 30px rgba(236, 72, 153, 0.4); }
+#made-for-maria {
+    position: fixed;
+    bottom: 15px;
+    left: 15px;
+    font-size: 0.8rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--text-muted); /* Kolor dla "made for" */
+    z-index: 100;
+    pointer-events: none;
+    opacity: 0.7;
+}
+
+#made-for-maria span {
+    animation: mariaPulse 3s infinite ease-in-out;
+}
+
+@keyframes mariaPulse {
+    0% {
+        color: #a855f7; /* Fioletowy */
+        text-shadow: 0 0 8px rgba(168, 85, 247, 0.6);
+    }
+    33% {
+        color: #ec4899; /* Różowy */
+        text-shadow: 0 0 10px rgba(236, 72, 153, 0.7);
+    }
+    66% {
+        color: #ef4444; /* Czerwony */
+        text-shadow: 0 0 8px rgba(239, 68, 68, 0.6);
+    }
+    100% {
+        color: #a855f7; /* Powrót do fioletu */
+        text-shadow: 0 0 8px rgba(168, 85, 247, 0.6);
+    }
+}
     </style>
 </head>
 <body>
@@ -1449,5 +1485,6 @@
             });
         }
     </script>
+<div id="made-for-maria">made for <span>maria</span></div>
 </body>
 </html>
