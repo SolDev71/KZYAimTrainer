@@ -1832,8 +1832,10 @@ let nextCatLvl = CAT_UNLOCK_LEVELS.find(l => l > currentLvl);
                 lifetimeStats._latestHits = hits + goldenHits;
                 localStorage.setItem('marysia_lifetime_stats', JSON.stringify(lifetimeStats));
 
-                xpEarned = Math.floor((hits + goldenHits) * 2 + (currentPoints / 100));
-                coinsEarned = Math.floor(xpEarned * 0.5);
+                let baseScoreForReward = currentMode === 'survival' ? Math.floor(survivalTimePlayed * 15) : currentPoints;
+
+                xpEarned = Math.floor(baseScoreForReward * 0.10);
+                coinsEarned = Math.floor(baseScoreForReward * 0.15);
 
         
                 if(currentMode === 'survival') {
