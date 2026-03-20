@@ -1837,19 +1837,25 @@ let nextCatLvl = CAT_UNLOCK_LEVELS.find(l => l > currentLvl);
 
         
                 if(currentMode === 'survival') {
-                 
                     lpChange = Math.floor((survivalTimePlayed - 40) * 2.5);
                 } else {
-                  
-                    let expectedMaxHits = (60 / (MODES[currentMode].speed / 1000));
-                    let expectedScore = expectedMaxHits * 15 * MODES[currentMode].mult;
-                    let ratio = currentPoints / expectedScore;
+                    if (currentPoints >= 2000) {
+                        lpChange = 40 + Math.floor((currentPoints - 2000) / 50); 
+                    } else if (currentPoints >= 1500) {
+                        lpChange = 30 + Math.floor((currentPoints - 1500) / 50); 
+                    } else if (currentPoints >= 1300) {
+                        lpChange = 20 + Math.floor((currentPoints - 1300) / 20); 
+                    } else if (currentPoints >= 1100) {
+                        lpChange = Math.floor((currentPoints - 1100) / 10);     
+                    } else {
+                        lpChange = Math.floor((currentPoints - 1100) / 10);
+                    }
 
-                  
-                    lpChange = Math.floor((ratio - 1.5) * 85);
-                    
-            
-                    if(currentMode === 'hard' && lpChange > 0) lpChange = Math.floor(lpChange * 1.3);
+                    if (currentMode === 'hard' && lpChange > 0) {
+                        lpChange = Math.floor(lpChange * 1.3); 
+                    } else if (currentMode === 'chill') {
+                        lpChange = lpChange > 0 ? Math.floor(lpChange * 0.5) : Math.floor(lpChange * 0.8);
+                    }
                 }
                 
                 lpChange = Math.max(-80, Math.min(200, lpChange));
