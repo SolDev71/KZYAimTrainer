@@ -1890,6 +1890,9 @@ let nextCatLvl = CAT_UNLOCK_LEVELS.find(l => l > currentLvl);
             document.getElementById('lp-bar-fill').style.width = `${rData.progress}%`;
             document.getElementById('lp-bar-fill').style.background = rData.color;
             
+            document.getElementById('lp-total-text').textContent = `Total: ${totalLP} LP`;
+            document.getElementById('lp-progress-text').textContent = rData.name === "Champion" ? "MAX" : `${rData.progress}/100 LP`;
+            
             const lpChangeEl = document.getElementById('lp-change');
             lpChangeEl.textContent = (lpChange >= 0 ? '+' : '') + lpChange + ' LP';
             lpChangeEl.style.color = lpChange >= 0 ? '#10b981' : '#ef4444';
