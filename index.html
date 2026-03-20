@@ -1013,34 +1013,28 @@ const FLASH_CATS = [
         
 
 function getPerfRank(score, mode) {
-           
-            if(sessionCheated) return { name: "UNRANKED", color: "#64748b" };
-            
-            if(mode === 'survival') {
-                if(score > 180) return { name: "Champion", color: RANKS_CONFIG[7].color }; 
-                if(score > 120) return { name: "Diamond", color: RANKS_CONFIG[6].color };  
-                if(score > 90)  return { name: "Emerald", color: RANKS_CONFIG[5].color };  
-                if(score > 60)  return { name: "Platinum", color: RANKS_CONFIG[4].color }; 
-                if(score > 40)  return { name: "Gold", color: RANKS_CONFIG[3].color };     
-                if(score > 25)  return { name: "Silver", color: RANKS_CONFIG[2].color };   
-                if(score > 15)  return { name: "Bronze", color: RANKS_CONFIG[1].color };   
-                return { name: "Copper", color: RANKS_CONFIG[0].color };
-            }
+    if(sessionCheated) return { name: "UNRANKED", color: "#64748b" };
+    
+    if(mode === 'survival') {
+        if(score > 180) return { name: "Champion", color: RANKS_CONFIG[7].color }; 
+        if(score > 120) return { name: "Diamond", color: RANKS_CONFIG[6].color };  
+        if(score > 90)  return { name: "Emerald", color: RANKS_CONFIG[5].color };  
+        if(score > 60)  return { name: "Platinum", color: RANKS_CONFIG[4].color }; 
+        if(score > 40)  return { name: "Gold", color: RANKS_CONFIG[3].color };     
+        if(score > 25)  return { name: "Silver", color: RANKS_CONFIG[2].color };   
+        if(score > 15)  return { name: "Bronze", color: RANKS_CONFIG[1].color };   
+        return { name: "Copper", color: RANKS_CONFIG[0].color };
+    }
 
-            let expectedMaxHits = (60 / (MODES[mode].speed / 1000));
-            let expectedScore = expectedMaxHits * 15 * MODES[mode].mult;
-            let ratio = score / expectedScore;
-            
-         
-            if(ratio > 2.8) return { name: "Champion", color: RANKS_CONFIG[7].color }; 
-            if(ratio > 2.1) return { name: "Diamond", color: RANKS_CONFIG[6].color };  
-            if(ratio > 1.6) return { name: "Emerald", color: RANKS_CONFIG[5].color };  
-            if(ratio > 1.2) return { name: "Platinum", color: RANKS_CONFIG[4].color }; 
-            if(ratio > 0.8) return { name: "Gold", color: RANKS_CONFIG[3].color };     
-            if(ratio > 0.5) return { name: "Silver", color: RANKS_CONFIG[2].color };
-            if(ratio > 0.2) return { name: "Bronze", color: RANKS_CONFIG[1].color };
-            return { name: "Copper", color: RANKS_CONFIG[0].color };
-        }
+    if(score >= 2500) return { name: "Champion", color: RANKS_CONFIG[7].color }; 
+    if(score >= 2100) return { name: "Diamond", color: RANKS_CONFIG[6].color };  
+    if(score >= 1800) return { name: "Emerald", color: RANKS_CONFIG[5].color };  
+    if(score >= 1500) return { name: "Platinum", color: RANKS_CONFIG[4].color }; 
+    if(score >= 1200) return { name: "Gold", color: RANKS_CONFIG[3].color };     
+    if(score >= 900)  return { name: "Silver", color: RANKS_CONFIG[2].color };
+    if(score >= 600)  return { name: "Bronze", color: RANKS_CONFIG[1].color };
+    return { name: "Copper", color: RANKS_CONFIG[0].color };
+}
         
         function getCatLevel(xp) { return Math.floor(Math.sqrt(Math.max(0, xp) / 100)) + 1; }
         function getCatXPForLevel(lvl) { return Math.pow(lvl - 1, 2) * 100; }
