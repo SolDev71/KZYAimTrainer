@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Aim Trainer - High Tier Edition</title>
+    <title>Aim Trainer - NEW UPD 🎆</title>
     <link rel="icon" href="favicon.png" type="image/png">
     <style>
         :root {
@@ -18,20 +18,12 @@
             --btn-hover: #be185d;
             --btn-inactive: rgba(255, 255, 255, 0.05);
             --btn-inactive-text: #64748b;
-            
-            --rank-copper: #b87333;
-            --rank-bronze: #cd7f32;
-            --rank-silver: #94a3b8;
-            --rank-gold: #fbbf24;
-            --rank-platinum: #94a3b8;
-            --rank-emerald: #34d399;
-            --rank-diamond: #38bdf8;
-            --rank-champion: #f472b6;
-            
+            --rank-copper: #b87333; --rank-bronze: #cd7f32; --rank-silver: #94a3b8; --rank-gold: #fbbf24;
+            --rank-platinum: #94a3b8; --rank-emerald: #34d399; --rank-diamond: #38bdf8; --rank-champion: #f472b6;
             --font-stack: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
             --text-main: #f8fafc;
             --text-muted: #94a3b8;
-            --overlay-bg: rgba(5, 5, 10, 0.94);
+            --overlay-bg: rgba(5, 5, 10, 0.75);
             --container-bg: rgba(15, 23, 42, 0.4);
             --panel-bg: rgba(30, 41, 59, 0.5);
             --border-color: rgba(255, 255, 255, 0.08);
@@ -41,18 +33,8 @@
 
         * { box-sizing: border-box; margin: 0; padding: 0; }
 
-        body {
-            font-family: var(--font-stack); background: var(--bg-color);
-            background-size: cover; background-position: center;
-            color: var(--text-main); display: flex; justify-content: center;
-            align-items: center; height: 100vh; overflow: hidden;
-            user-select: none; transition: background 0.8s ease, color 0.4s;
-        }
-
-        body.dark-mode {
-            --text-main: #f8fafc; --text-muted: #cbd5e1;
-        }
-
+        body { font-family: var(--font-stack); background: var(--bg-color); background-size: cover; background-position: center; color: var(--text-main); display: flex; justify-content: center; align-items: center; height: 100vh; overflow: hidden; user-select: none; transition: background 0.8s ease, color 0.4s; }
+        body.dark-mode { --text-main: #f8fafc; --text-muted: #cbd5e1; }
         body.animated-bg { background-size: 300% 300% !important; animation: gradientMove 15s ease infinite !important; }
         @keyframes gradientMove { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
 
@@ -61,28 +43,29 @@
         ::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.15); border-radius: 4px; }
         ::-webkit-scrollbar-thumb:hover { background: rgba(255,255,255,0.3); }
 
-        .screen-overlay {
-            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-            display: flex; flex-direction: column; align-items: center;
-            opacity: 0; visibility: hidden; pointer-events: none;
-            transition: opacity 0.3s ease, visibility 0.3s ease;
-            z-index: 20; background: var(--overlay-bg); backdrop-filter: blur(25px);
-            overflow-y: auto; overflow-x: hidden; padding: 40px 20px;
-        }
-        .screen-overlay.active { opacity: 1; visibility: visible; pointer-events: auto; }
+        .screen-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; display: none; flex-direction: column; align-items: center; z-index: 20; background: var(--overlay-bg); backdrop-filter: blur(12px); overflow-y: auto; overflow-x: hidden; padding: 40px 20px; animation: fadeIn 0.3s ease forwards; }
+        .screen-overlay.active { display: flex; }
+        .solid-bg { background: rgba(5,5,10,0.85) !important; backdrop-filter: blur(25px) !important;}
+        @keyframes fadeIn { 0% { opacity: 0; } 100% { opacity: 1; } }
         
-        #game-ui { position: absolute; width: 100%; height: 100%; z-index: 10; display: flex; justify-content: center; align-items: center; pointer-events: none; opacity: 0; transition: 0.3s;}
-        #game-ui.active { opacity: 1; pointer-events: auto; }
+        #start-screen { background: rgba(5, 5, 10, 0.15) !important; backdrop-filter: blur(4px) !important; }
 
-        #cheat-toggle-btn {
-            position: fixed; top: 15px; left: 15px; width: 40px; height: 40px;
-            background: var(--btn-inactive); border-radius: 50%; display: flex;
-            justify-content: center; align-items: center; cursor: pointer;
-            z-index: 9999; font-size: 1.3rem; transition: 0.2s; color: var(--text-main);
-            border: 1px solid var(--border-color);
-        }
+        #game-ui { position: absolute; width: 100%; height: 100%; z-index: 10; display: none; justify-content: center; align-items: center; animation: fadeIn 0.3s ease forwards;}
+        #game-ui.active { display: flex; }
+
+        #top-left-controls { position: fixed; top: 15px; left: 15px; display: flex; flex-direction: column; gap: 10px; align-items: flex-start; z-index: 9999; }
+        .tl-row { display: flex; gap: 10px; align-items: center; height: 40px; }
+        
+        #cheat-toggle-btn { width: 40px; height: 40px; background: var(--btn-inactive); border-radius: 50%; display: flex; justify-content: center; align-items: center; cursor: pointer; font-size: 1.3rem; transition: 0.2s; color: var(--text-main); border: 1px solid var(--border-color); flex-shrink: 0; }
         #cheat-toggle-btn:hover { transform: rotate(45deg); background: var(--btn-color); color: #fff; border-color: transparent; }
-        #cheat-menu { position: fixed; top: 65px; left: 15px; background: var(--panel-bg); backdrop-filter: blur(15px); border: 1px solid var(--border-color); border-radius: 12px; padding: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.8); z-index: 9999; display: none; flex-direction: column; gap: 10px; color: var(--text-main); }
+        
+        #vol-control { display: flex; align-items: center; justify-content: flex-start; background: var(--btn-inactive); height: 40px; width: 40px; border-radius: 20px; border: 1px solid var(--border-color); backdrop-filter: blur(10px); overflow: hidden; transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1); cursor: pointer; box-sizing: border-box; flex-shrink: 0; padding: 0;}
+        #vol-control:hover { width: 140px; justify-content: flex-start; padding-left: 10px; }
+        #vol-icon { display: flex; justify-content: center; align-items: center; width: 40px; height: 40px; font-size: 1.2rem; flex-shrink: 0; }
+        #vol-slider { width: 80px; opacity: 0; transition: opacity 0.2s; cursor: pointer; accent-color: var(--btn-color); flex-shrink: 0; pointer-events: none; margin-left: 5px; }
+        #vol-control:hover #vol-slider { opacity: 1; pointer-events: auto; transition-delay: 0.1s; }
+
+        #cheat-menu { background: var(--panel-bg); backdrop-filter: blur(15px); border: 1px solid var(--border-color); border-radius: 12px; padding: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.8); display: none; flex-direction: column; gap: 10px; color: var(--text-main); width: max-content; }
         #cheat-menu.active { display: flex; }
         .cheat-title { font-size: 0.8rem; font-weight: 800; color: var(--cheat-red); text-transform: uppercase; border-bottom: 1px solid var(--border-color); padding-bottom: 5px; margin-bottom: 5px; }
         .cheat-option { display: flex; align-items: center; gap: 8px; font-size: 0.85rem; font-weight: 600; cursor: pointer; color: var(--text-main); }
@@ -92,10 +75,8 @@
 
         .galaxy-star { position: absolute; background: #ffffff; border-radius: 50%; animation: twinkle var(--dur) infinite ease-in-out alternate; opacity: 0; box-shadow: 0 0 12px 2px #ffffff; }
         @keyframes twinkle { 0% { opacity: 0.1; transform: scale(0.8); } 100% { opacity: 0.8; transform: scale(2.5); box-shadow: 0 0 15px 3px #ffffff; } }
-        
         .gold-sparkle { position: absolute; background: #fbbf24; clip-path: polygon(50% 0%, 60% 40%, 100% 50%, 60% 60%, 50% 100%, 40% 60%, 0% 50%, 40% 40%); animation: floatGold var(--dur) infinite linear; opacity: 0; box-shadow: 0 0 15px 2px #fbbf24; }
         @keyframes floatGold { 0% { transform: translateY(100vh) rotate(0deg) scale(0); opacity: 0; } 20% { opacity: 0.8; } 80% { opacity: 0.8; } 100% { transform: translateY(-20vh) rotate(180deg) scale(2.5); opacity: 0; } }
-        
         .matrix-char { position: absolute; color: #10b981; font-family: monospace; font-size: 1.2rem; font-weight: bold; text-shadow: 0 0 8px #10b981; animation: fall linear infinite; opacity: 0; user-select: none; }
         @keyframes fall { 0% { transform: translateY(-10vh); opacity: 0.8; } 100% { transform: translateY(110vh); opacity: 0; } }
 
@@ -108,8 +89,7 @@
         @keyframes creepyFade { 0% { opacity: 0; transform: scale(0.9); filter: blur(5px); } 20% { opacity: 0.7; filter: blur(0px); } 80% { opacity: 0.7; transform: scale(1.1); filter: blur(0px); } 100% { opacity: 0; transform: scale(1.2); filter: blur(10px); } }
 
         .blackhole-corner { position: absolute; width: 300px; height: 300px; background: #000; border-radius: 50%; box-shadow: 0 0 100px 20px #4c1d95, inset 0 0 50px #3b0764; animation: bhPulseCorner 4s infinite alternate; z-index: 1; }
-        .bh-top-left { top: -120px; left: -120px; }
-        .bh-bottom-right { bottom: -120px; right: -120px; }
+        .bh-top-left { top: -120px; left: -120px; } .bh-bottom-right { bottom: -120px; right: -120px; }
         @keyframes bhPulseCorner { 0% { transform: scale(0.95); box-shadow: 0 0 80px 15px #4c1d95, inset 0 0 40px #3b0764; } 100% { transform: scale(1.05); box-shadow: 0 0 120px 30px #7e22ce, inset 0 0 60px #4c1d95; } }
         .astral-particle-straight { position: absolute; background: #d8b4fe; border-radius: 50%; filter: drop-shadow(0 0 8px #a855f7); animation: suckInCorner var(--dur) cubic-bezier(0.4, 0, 1, 1) forwards; pointer-events: none; }
         @keyframes suckInCorner { 0% { transform: translate(var(--startX), var(--startY)) scale(0); opacity: 0; } 20% { opacity: 1; transform: translate(var(--startX), var(--startY)) scale(1); } 100% { transform: translate(var(--targetX), var(--targetY)) scale(0); opacity: 0; } }
@@ -122,34 +102,17 @@
         .dc-tr { top: -100px; right: -100px; width: 300px; height: 300px; background: radial-gradient(circle, rgba(139,92,246,0.4), transparent 70%); }
         .dc-bl { bottom: -100px; left: -100px; width: 300px; height: 300px; background: radial-gradient(circle, rgba(251,191,36,0.4), transparent 70%); }
         @keyframes divineCrackPulse { 0% { transform: scale(0.9); opacity: 0.3; } 100% { transform: scale(1.1); opacity: 0.7; } }
-        
         .divine-god-ray { position: absolute; background: linear-gradient(to top, transparent, rgba(255,255,255,0.05) 20%, rgba(251,191,36,0.03) 80%, transparent); width: var(--w); height: 50vh; filter: blur(15px); transform-origin: bottom center; animation: swayRay var(--dur) ease-in-out infinite alternate; pointer-events: none; }
         @keyframes swayRay { 0% { transform: rotate(calc(var(--rot) - 5deg)) translateY(var(--ty)); opacity: 0.1; } 100% { transform: rotate(calc(var(--rot) + 5deg)) translateY(var(--ty)); opacity: 0.5; } }
         .divine-edge-spark { position: absolute; background: #fff; border-radius: 50%; box-shadow: 0 0 10px #fbbf24, 0 0 20px #fff; animation: floatEdge var(--dur) ease-in-out infinite alternate; pointer-events: none; }
         @keyframes floatEdge { 0% { transform: translate(0, 0) scale(0.5); opacity: 0.1; } 50% { opacity: 0.6; } 100% { transform: translate(var(--mx), var(--my)) scale(1.2); opacity: 0.1; } }
 
-        #main-container {
-            width: 90vw; max-width: 1000px; height: auto; min-height: 80vh; max-height: 90vh;
-            background: rgba(15, 23, 42, 0.4); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
-            border-radius: 20px; box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6);
-            display: flex; flex-direction: column; position: relative; overflow: hidden;
-            transition: box-shadow 0.3s, border 0.3s, background 0.5s;
-            border: 1px solid var(--border-color);
-        }
-
-        @keyframes onFirePulse {
-            0% { box-shadow: 0 0 30px rgba(249, 115, 22, 0.1), inset 0 0 20px rgba(236, 72, 153, 0.1); border-color: rgba(249, 115, 22, 0.3); }
-            50% { box-shadow: 0 0 50px rgba(236, 72, 153, 0.3), inset 0 0 30px rgba(249, 115, 22, 0.2); border-color: rgba(236, 72, 153, 0.5); }
-            100% { box-shadow: 0 0 30px rgba(249, 115, 22, 0.1), inset 0 0 20px rgba(236, 72, 153, 0.1); border-color: rgba(249, 115, 22, 0.3); }
-        }
+        #main-container { width: 90vw; max-width: 1000px; height: auto; min-height: 80vh; max-height: 90vh; background: rgba(15, 23, 42, 0.4); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border-radius: 20px; box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6); display: flex; flex-direction: column; position: relative; overflow: hidden; transition: box-shadow 0.3s, border 0.3s, background 0.5s; border: 1px solid var(--border-color); }
+        @keyframes onFirePulse { 0% { box-shadow: 0 0 30px rgba(249, 115, 22, 0.1), inset 0 0 20px rgba(236, 72, 153, 0.1); border-color: rgba(249, 115, 22, 0.3); } 50% { box-shadow: 0 0 50px rgba(236, 72, 153, 0.3), inset 0 0 30px rgba(249, 115, 22, 0.2); border-color: rgba(236, 72, 153, 0.5); } 100% { box-shadow: 0 0 30px rgba(249, 115, 22, 0.1), inset 0 0 20px rgba(236, 72, 153, 0.1); border-color: rgba(249, 115, 22, 0.3); } }
         #main-container.on-fire { animation: onFirePulse 1.5s infinite; }
 
         .top-right-btns { position: absolute; top: 15px; right: 15px; display: flex; gap: 15px; z-index: 100; }
-        .nav-btn {
-            padding: 10px 20px; background: rgba(15, 23, 42, 0.6); backdrop-filter: blur(15px); border-radius: 12px; display: flex; gap: 8px;
-            justify-content: center; align-items: center; cursor: pointer; font-size: 0.95rem; font-weight: 800; color: #fbbf24;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.5); border: 1px solid rgba(255,255,255,0.1); transition: all 0.2s ease;
-        }
+        .nav-btn { padding: 10px 20px; background: rgba(15, 23, 42, 0.6); backdrop-filter: blur(15px); border-radius: 12px; display: flex; gap: 8px; justify-content: center; align-items: center; cursor: pointer; font-size: 0.95rem; font-weight: 800; color: #fbbf24; box-shadow: 0 4px 20px rgba(0,0,0,0.5); border: 1px solid rgba(255,255,255,0.1); transition: all 0.2s ease; }
         .nav-btn:hover { transform: translateY(-2px); background: rgba(30, 41, 59, 0.9); border-color: rgba(255,255,255,0.3); box-shadow: 0 8px 25px rgba(0,0,0,0.7); color: #fff;}
 
         #game-title-container { text-align: center; padding-top: 20px; position: relative; flex-shrink: 0; width: 100%;}
@@ -210,7 +173,20 @@
         #start-screen { padding-top: 50px; justify-content: flex-start; }
         #end-screen { justify-content: center;}
         
-        .close-overlay-x { position: absolute; top: 25px; right: 35px; font-size: 2.5rem; color: var(--text-muted); cursor: pointer; transition: 0.2s; font-weight: 800; z-index: 50; line-height: 1;}
+.close-overlay-x { 
+            position: sticky; 
+            top: 25px; 
+            align-self: flex-end; 
+            margin-right: 15px; 
+            margin-bottom: -40px; 
+            font-size: 2.5rem; 
+            color: var(--text-muted); 
+            cursor: pointer; 
+            transition: 0.2s; 
+            font-weight: 800; 
+            z-index: 9999; 
+            line-height: 1;
+        }
         .close-overlay-x:hover { color: #fff; transform: scale(1.1) rotate(90deg); text-shadow: 0 0 15px rgba(255,255,255,0.5);}
 
         #main-welcome-title { font-size: 3.5rem; font-weight: 900; letter-spacing: -1px; margin-bottom: 25px; color: var(--text-main); text-shadow: 0 4px 20px rgba(0,0,0,0.8); animation: welcomeGlow 4s infinite alternate; text-align: center;}
@@ -234,6 +210,9 @@
         .lootbox-title { font-size: 1.5rem; font-weight: 900; margin-bottom: 30px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 3px; }
         .box-selection-grid { display: flex; flex-wrap: wrap; justify-content: center; gap: 20px; width: 100%; }
         
+        .trade-row { display: flex; justify-content: space-between; align-items: center; padding: 15px; background: rgba(0,0,0,0.3); border: 1px solid rgba(255,255,255,0.1); border-radius: 12px; margin-bottom: 10px; }
+        .trade-info { font-size: 1rem; font-weight: 800; color: #f8fafc; text-transform: uppercase; letter-spacing: 1px; }
+
         .ach-card { background: rgba(15, 23, 42, 0.7); border: 1px solid rgba(255,255,255,0.08); border-radius: 14px; padding: 20px; display: flex; gap: 20px; align-items: center; text-align: left; position: relative; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.3); color: var(--text-main); transition: transform 0.2s, border-color 0.2s;}
         .ach-card:hover { transform: translateY(-2px); border-color: rgba(255,255,255,0.2); }
         .ach-card.completed { border-color: #10b981; background: linear-gradient(135deg, rgba(15, 23, 42, 0.9) 0%, rgba(16, 185, 129, 0.15) 100%); }
@@ -323,7 +302,7 @@
         #loot-result { display: none; margin: 20px auto 0 auto; font-size: 1.1rem; font-weight: 800; padding: 30px 60px; border-radius: 20px; border: 1px solid rgba(255,255,255,0.2); color: #fff; z-index: 2; box-shadow: 0 20px 50px rgba(0,0,0,0.8); width: max-content;}
         @keyframes dropReveal { 0% { transform: scale(0.5) translateY(50px); opacity: 0; } 60% { transform: scale(1.1) translateY(-10px); opacity: 1; } 100% { transform: scale(1) translateY(0); opacity: 1; } }
         .loot-showcase { display: flex; flex-direction: column; align-items: center; animation: dropReveal 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;}
-        .loot-showcase-visual { width: 150px; height: 150px; display: flex; justify-content: center; align-items: center; border-radius: 16px; margin-bottom: 25px; background: rgba(0,0,0,0.5); border: 2px solid rgba(255,255,255,0.15); box-shadow: 0 15px 40px rgba(0,0,0,0.7);}
+        .loot-showcase-visual { width: 150px; height: 150px; display: flex; justify-content: center; align-items: center; border-radius: 16px; margin-bottom: 25px; background: rgba(0,0,0,0.5); border: 2px solid rgba(255,255,255,0.15); box-shadow: 0 15px 40px rgba(0,0,0,0.7); position: relative;}
 
         .inv-section { width: 100%; max-width: 900px; margin-bottom: 40px; flex-shrink: 0;}
         .inv-title { font-size: 1.2rem; font-weight: 900; text-transform: uppercase; letter-spacing: 2px; color: var(--text-muted); border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 10px; margin-bottom: 25px; text-align: left; }
@@ -374,6 +353,25 @@
         #rankup-overlay.active .ru-rank-name { opacity: 1; transform: scale(1); }
         .ru-continue-btn { margin-top: 50px; opacity: 0; transition: 0.5s 1.5s; background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); }
         #rankup-overlay.active .ru-continue-btn { opacity: 1; }
+        
+        .trade-row { display: flex; justify-content: space-between; align-items: center; padding: 15px; background: rgba(0,0,0,0.3); border: 1px solid rgba(255,255,255,0.1); border-radius: 12px; margin-bottom: 10px; }
+        .trade-info { font-size: 1rem; font-weight: 800; color: #f8fafc; text-transform: uppercase; letter-spacing: 1px; }
+
+        #countdown-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); z-index: 10000; display: none; justify-content: center; align-items: center; backdrop-filter: blur(10px); }
+        #countdown-text { font-size: 8rem; font-weight: 900; color: var(--btn-color); text-shadow: 0 0 30px var(--btn-color); animation: pop 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards; opacity: 0; transform: scale(0.5); }
+        @keyframes pop { 0% { transform: scale(0.5); opacity: 0; } 50% { transform: scale(1.2); opacity: 1; } 100% { transform: scale(1); opacity: 1; } }
+
+        .inv-sell-grid { display: flex; flex-wrap: wrap; gap: 15px; margin-bottom: 30px; justify-content: flex-start; }
+        .inv-sell-card { position: relative; background: rgba(15,23,42,0.6); border: 1px solid rgba(255,255,255,0.1); border-radius: 12px; padding: 15px; width: 120px; display: flex; flex-direction: column; align-items: center; box-shadow: 0 5px 15px rgba(0,0,0,0.3); transition: 0.2s; }
+        .inv-sell-card:hover { transform: translateY(-5px); border-color: rgba(255,255,255,0.3); }
+        .inv-sell-btn { margin-top: 10px; width: 100%; padding: 5px 0; font-size: 0.75rem; font-weight: 900; background: linear-gradient(135deg, #ef4444, #b91c1c); color: #fff; border: 1px solid rgba(255,255,255,0.2); border-radius: 6px; cursor: pointer; transition: 0.2s; box-shadow: 0 4px 10px rgba(239, 68, 68, 0.3); text-transform: uppercase; letter-spacing: 0.5px;}
+        .inv-sell-btn:hover { filter: brightness(1.2); transform: scale(1.05); }
+        .dup-badge { position: absolute; top: -8px; right: -8px; background: linear-gradient(135deg, #10b981, #059669); color: #fff; font-weight: 900; font-size: 0.75rem; padding: 4px 10px; border-radius: 12px; box-shadow: 0 4px 10px rgba(16, 185, 129, 0.4); border: 2px solid #09090b; z-index: 5; }
+
+        .trade-particle { position: fixed; top: 0; left: 0; border-radius: 50%; z-index: 100005; pointer-events: none; animation: tradeFusion 0.6s cubic-bezier(0.4, 0, 1, 1) forwards; }
+        @keyframes tradeFusion { 0% { transform: translate(var(--startX), var(--startY)) scale(0); opacity: 0; } 20% { opacity: 1; transform: translate(var(--startX), var(--startY)) scale(1.5); } 100% { transform: translate(50vw, 50vh) scale(0); opacity: 0; } }
+        #trade-flash { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #fff; z-index: 100006; opacity: 0; pointer-events: none; display: none; }
+        @keyframes tradeFlashAnim { 0% { opacity: 1; } 100% { opacity: 0; } }
     </style>
 </head>
 <body>
@@ -390,19 +388,30 @@
     <div id="mythic-text-flash">MYTHIC!</div>
     <div id="astral-text-flash">ASTRAL!</div>
     <div id="divine-text-flash">DIVINE!</div>
+    <div id="trade-flash"></div>
 
-    <div id="cheat-toggle-btn">⚙️</div>
-    <div id="cheat-menu">
-        <div class="cheat-title">Cheaty</div>
-        <label class="cheat-option"><input type="checkbox" id="cheat-autoclick"> Auto-Click</label>
-        <label class="cheat-option"><input type="checkbox" id="cheat-aimbot"> Aimbot</label>
-        <label class="cheat-option"><input type="checkbox" id="cheat-bighead"> Big Head</label>
-        <label class="cheat-option"><input type="checkbox" id="cheat-nomiss"> No Miss</label>
+    <div id="top-left-controls">
+        <div class="tl-row">
+            <div id="cheat-toggle-btn">⚙️</div>
+            <div id="vol-control">
+                <div id="vol-icon">🔊</div>
+                <input type="range" id="vol-slider" min="0" max="100" value="50">
+            </div>
+        </div>
+        <div id="cheat-menu">
+            <div class="cheat-title">Cheaty</div>
+            <label class="cheat-option"><input type="checkbox" id="cheat-autoclick"> Auto-Click</label>
+            <label class="cheat-option"><input type="checkbox" id="cheat-aimbot"> Aimbot</label>
+            <label class="cheat-option"><input type="checkbox" id="cheat-bighead"> Big Head</label>
+            <label class="cheat-option"><input type="checkbox" id="cheat-nomiss"> No Miss</label>
+        </div>
     </div>
 
     <div id="bg-effects"></div>
-    
+    <div id="rarity-flash-overlay"></div>
+
     <div class="top-right-btns">
+        <div id="tradeup-toggle-btn" class="nav-btn" onclick="switchScreen('tradeup-overlay')">🎒 Ekwipunek</div>
         <div id="achievements-toggle-btn" class="nav-btn" onclick="switchScreen('achievements-overlay')">🏆 Zadania</div>
         <div id="shop-toggle-btn" class="nav-btn" onclick="switchScreen('shop-overlay')"><span id="main-coins-display">0</span> 💰 Sklep</div>
     </div>
@@ -430,10 +439,6 @@
                 <div id="target"></div>
             </div>
         </div>
-    </div>
-
-    <div id="flash-container" class="screen-overlay" style="background: rgba(220, 38, 38, 0.85); z-index: 9000; justify-content: center;">
-        <img id="flash-img" src="" alt="Flash Image" style="max-width: 80%; max-height: 80%; border-radius: 16px; box-shadow: 0 20px 60px rgba(0, 0, 0, 0.8); object-fit: contain;">
     </div>
 
     <div id="start-screen" class="screen-overlay active">
@@ -486,7 +491,7 @@
         </div>
     </div>
 
-    <div id="achievements-overlay" class="screen-overlay glass-bg">
+    <div id="achievements-overlay" class="screen-overlay solid-bg">
         <div class="close-overlay-x" onclick="switchScreen('start-screen')">✖</div>
         <div class="shop-header">
             <div class="shop-title" style="color: #fbbf24;">ZADANIA</div>
@@ -494,7 +499,35 @@
         <div id="ach-list-container" style="width: 100%; max-width: 800px; display: flex; flex-direction: column; gap: 15px; margin-bottom: 50px;"></div>
     </div>
 
-    <div id="shop-overlay" class="screen-overlay glass-bg">
+    <div id="tradeup-overlay" class="screen-overlay solid-bg">
+        <div class="close-overlay-x" onclick="switchScreen('start-screen')">✖</div>
+        <div class="shop-header">
+            <div class="shop-title" style="color: #fbbf24;">EKWIPUNEK</div>
+            <div class="shop-coins"><span id="inv-coins-display">0</span> 💰</div>
+        </div>
+        
+        <div style="width: 100%; max-width: 900px; text-align: left; margin-bottom: 20px;">
+            <h2 style="color: var(--text-muted); font-size: 1.2rem; text-transform: uppercase; letter-spacing: 2px;">Twoje Duplikaty</h2>
+        </div>
+        <div class="inv-sell-grid" id="full-inv-grid" style="width: 100%; max-width: 900px;"></div>
+
+        <div class="glass-panel" id="tradeup-list-container" style="width: 100%; max-width: 900px; padding: 30px; margin-bottom: 20px; margin-top: 20px;">
+            <div style="text-align:center; color: var(--text-muted); margin-bottom:20px; font-weight:800; font-size: 1.2rem; text-transform: uppercase; letter-spacing: 1px;">WYMIANA DUPLIKATÓW</div>
+            <div style="text-align:center; color: var(--text-muted); margin-bottom:20px; font-size: 0.9rem;">Zbierz 5 sztuk z danej rzadkości, by wymienić je na jeden rzadszy przedmiot!</div>
+            <div id="tradeup-list" style="display: flex; flex-direction: column; gap: 15px;"></div>
+        </div>
+
+        <div id="trade-result-box" style="display: none; flex-direction: column; align-items: center; gap: 15px; margin-top: 20px; background: rgba(0,0,0,0.5); padding: 40px; border-radius: 16px; border: 1px solid rgba(255,255,255,0.1); box-shadow: 0 15px 40px rgba(0,0,0,0.7); text-align: center;">
+            <h1 style="color: #10b981; text-transform: uppercase; margin-bottom: 0; text-shadow: 0 0 15px rgba(16,185,129,0.5);">UDANA WYMIANA!</h1>
+            <h3 style="color: var(--text-muted); text-transform: uppercase; font-size: 0.9rem; margin-top: -10px;">Otrzymano:</h3>
+            <div id="trade-result-img" style="margin: 10px 0;"></div>
+            <div id="trade-result-name" style="font-size: 2.5rem; font-weight: 900; text-transform: uppercase; margin-bottom: 5px;"></div>
+            <div id="trade-result-rarity" class="rarity-label" style="margin-bottom: 15px;"></div>
+            <button class="btn" style="margin-top: 20px;" onclick="closeTradeResult()">Zatwierdź</button>
+        </div>
+    </div>
+
+    <div id="shop-overlay" class="screen-overlay solid-bg">
         <div class="close-overlay-x" onclick="switchScreen('start-screen')">✖</div>
         <div class="shop-header">
             <div class="shop-title">SKLEP</div>
@@ -550,7 +583,24 @@
         </div>
     </div>
 
-    <div id="end-screen" class="screen-overlay glass-bg">
+    <div id="daily-login-overlay" class="screen-overlay" style="z-index: 100002; justify-content: center; align-items: center; background: rgba(0,0,0,0.9);">
+        <div class="glass-panel" style="padding: 50px; display: flex; flex-direction: column; align-items: center; gap: 20px; border-color: #fbbf24; box-shadow: 0 0 50px rgba(251, 191, 36, 0.2);">
+            <h1 style="color: #fbbf24; font-size: 3rem; margin: 0; text-shadow: 0 0 20px #fbbf24;">CODZIENNA NAGRODA</h1>
+            <div style="font-size: 5rem; filter: drop-shadow(0 0 20px rgba(251,191,36,0.6)); margin: 20px 0;">🎁</div>
+            <div style="font-size: 2.5rem; font-weight: 900; color: #10b981; text-shadow: 0 0 15px rgba(16,185,129,0.5);">+1000 💰</div>
+            <button class="btn" onclick="claimDaily()" style="margin-top: 20px; background: linear-gradient(135deg, #fbbf24, #d97706); border-color: #fbbf24;">ODBIERZ</button>
+        </div>
+    </div>
+
+    <div id="countdown-overlay">
+        <div id="countdown-text">GO!</div>
+    </div>
+
+    <div id="flash-container" class="screen-overlay" style="background: rgba(220, 38, 38, 0.85); z-index: 9000; justify-content: center;">
+        <img id="flash-img" src="" alt="Flash Image" style="max-width: 80%; max-height: 80%; border-radius: 16px; box-shadow: 0 20px 60px rgba(0, 0, 0, 0.8); object-fit: contain;">
+    </div>
+
+    <div id="end-screen" class="screen-overlay solid-bg">
         <h1 style="font-size: 4rem; text-shadow: 0 5px 25px rgba(0,0,0,0.8);">Koniec!</h1>
         
         <div class="results-container" id="results-content">
@@ -591,7 +641,7 @@
 
         <div style="display: flex; gap: 20px; justify-content: center; margin-top: 20px;">
             <button class="btn" id="restart-btn" onclick="switchScreen('start-screen');">Wróć do Menu</button>
-            <button class="btn" id="play-again-btn" style="background: linear-gradient(135deg, #fbbf24, #d97706); border-color: #fbbf24; box-shadow: 0 10px 25px rgba(251, 191, 36, 0.4);" onclick="startGame();">Rozpocznij Ponownie</button>
+            <button class="btn" id="play-again-btn" style="background: linear-gradient(135deg, #fbbf24, #d97706); border-color: #fbbf24; box-shadow: 0 10px 25px rgba(251, 191, 36, 0.4);" onclick="initiateGame();">Rozpocznij Ponownie</button>
         </div>
     </div>
 
@@ -662,6 +712,7 @@
         ];
         const MODES = { chill: { size: 60, speed: 1500, mult: 0.8, name: "Chill" }, normal: { size: 45, speed: 1100, mult: 1.0, name: "Normal" }, hard: { size: 30, speed: 750, mult: 1.5, name: "Hard" } };
         const CAT_UNLOCK_LEVELS = [1, 3, 5, 8, 12, 16, 20, 25];
+        const RARITY_ORDER = ['common', 'rare', 'epic', 'legendary', 'mythic', 'astral', 'divine'];
 
         const SECRET_KEY = "marysia_top_secret_v2";
         function saveSecure(key, val) { const dataStr = val.toString(); const b64 = btoa(dataStr); const checksum = btoa(dataStr + SECRET_KEY); localStorage.setItem(key, b64 + "." + checksum); }
@@ -674,9 +725,12 @@
         function safeParseJSON(key, defaultVal) { try { const val = localStorage.getItem(key); return val ? JSON.parse(val) : defaultVal; } catch(e) { return defaultVal; } }
 
         let audioCtx = null;
+        let globalVolume = loadSecure('marysia_vol', 50);
         let topScoreBefore = 0; let hits = 0, misses = 0, currentPoints = 0, goldenHits = 0; let currentCombo = 0, maxCombo = 0, totalComboBonus = 0; 
         let GAME_DURATION = 60, timeLeft = GAME_DURATION, gameTotalTime = 60; let gameInterval = null, targetInterval = null, aimbotTimeout = null, bloodTextInterval = null;
+        let countdownInterval = null;
         let isPlaying = false, isGolden = false, sessionCheated = false; let currentOpenedBox = null; let currentMode = 'normal';
+        let isOpeningBox = false;
 
         let coins = loadSecure('marysia_coins', 0);
         let totalLP = loadSecure('marysia_lp_v2', 0);
@@ -721,37 +775,40 @@
             if (!audioCtx) { try { audioCtx = new (window.AudioContext || window.webkitAudioContext)(); } catch(e){} }
             if (audioCtx && audioCtx.state === 'suspended') { audioCtx.resume().catch(()=>{}); }
         }
-        function playSound(freq1, freq2, type, dur, vol = 0.05) {
+        
+        function playSound(freq1, freq2, type, dur, baseVol = 0.05) {
             initAudio(); if (!audioCtx) return;
             try {
                 const osc = audioCtx.createOscillator(); const gainNode = audioCtx.createGain();
                 osc.type = type; osc.frequency.setValueAtTime(freq1, audioCtx.currentTime); osc.frequency.exponentialRampToValueAtTime(freq2, audioCtx.currentTime + dur);
-                gainNode.gain.setValueAtTime(vol, audioCtx.currentTime); gainNode.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + dur);
+                const finalVol = baseVol * (globalVolume / 100);
+                gainNode.gain.setValueAtTime(finalVol, audioCtx.currentTime); gainNode.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + dur);
                 osc.connect(gainNode); gainNode.connect(audioCtx.destination); osc.start(); osc.stop(audioCtx.currentTime + dur);
             } catch(e) {}
         }
-        function playHitSound() { playSound(800, 100, 'sine', 0.05); }
-        function playMissSound() { playSound(120, 20, 'triangle', 0.1); }
-        function playRouletteTick() { playSound(600, 500, 'square', 0.03); }
+        
+        function playHitSound() { playSound(800, 100, 'sine', 0.05, 0.08); }
+        function playMissSound() { playSound(120, 20, 'triangle', 0.1, 0.03); }
+        function playRouletteTick() { playSound(600, 500, 'square', 0.03, 0.03); }
         function playQuietFirework() {
             initAudio(); if(!audioCtx) return;
-            try { const osc = audioCtx.createOscillator(); const gain = audioCtx.createGain(); osc.type = 'sawtooth'; osc.frequency.setValueAtTime(100 + Math.random()*200, audioCtx.currentTime); osc.frequency.exponentialRampToValueAtTime(20, audioCtx.currentTime + 0.5); gain.gain.setValueAtTime(0.01, audioCtx.currentTime); gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.5); osc.connect(gain); gain.connect(audioCtx.destination); osc.start(); osc.stop(audioCtx.currentTime + 0.5); } catch(e){}
+            try { const osc = audioCtx.createOscillator(); const gain = audioCtx.createGain(); osc.type = 'sawtooth'; osc.frequency.setValueAtTime(100 + Math.random()*200, audioCtx.currentTime); osc.frequency.exponentialRampToValueAtTime(20, audioCtx.currentTime + 0.5); gain.gain.setValueAtTime(0.01 * (globalVolume/100), audioCtx.currentTime); gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.5); osc.connect(gain); gain.connect(audioCtx.destination); osc.start(); osc.stop(audioCtx.currentTime + 0.5); } catch(e){}
         }
-        function playLevelUpSound() { for(let i=0; i<6; i++) { setTimeout(playQuietFirework, i * 150 + Math.random()*50); } setTimeout(() => { playSound(500, 800, 'sine', 0.3); }, 800); }
+        function playLevelUpSound() { for(let i=0; i<6; i++) { setTimeout(playQuietFirework, i * 150 + Math.random()*50); } setTimeout(() => { playSound(500, 800, 'sine', 0.3, 0.03); }, 800); }
         function playWinSound(rarity) {
             initAudio();
             if (rarity === 'divine') {
             } else if (rarity === 'astral') {
-                playSound(50, 10, 'sawtooth', 3.0); playSound(100, 20, 'square', 2.5); setTimeout(() => playSound(880, 440, 'sine', 1.0), 500); setTimeout(() => playSound(1760, 880, 'sine', 1.5), 1000);
+                playSound(50, 10, 'sawtooth', 3.0, 0.02); playSound(100, 20, 'square', 2.5, 0.02); setTimeout(() => playSound(880, 440, 'sine', 1.0, 0.02), 500); setTimeout(() => playSound(1760, 880, 'sine', 1.5, 0.02), 1000);
             } else if (rarity === 'mythic') {
-                playSound(50, 20, 'sawtooth', 2.0); playSound(200, 50, 'square', 1.5); setTimeout(() => playSound(440, 880, 'sawtooth', 0.5), 300); setTimeout(() => playSound(880, 1760, 'square', 0.5), 600); setTimeout(() => { playSound(1760, 2000, 'sine', 1.5); playSound(880, 400, 'triangle', 1.5); }, 1000);
+                playSound(50, 20, 'sawtooth', 2.0, 0.02); playSound(200, 50, 'square', 1.5, 0.02); setTimeout(() => playSound(440, 880, 'sawtooth', 0.5, 0.02), 300); setTimeout(() => playSound(880, 1760, 'square', 0.5, 0.02), 600); setTimeout(() => { playSound(1760, 2000, 'sine', 1.5, 0.02); playSound(880, 400, 'triangle', 1.5, 0.02); }, 1000);
             } else if (rarity === 'legendary') {
-                playSound(150, 40, 'square', 0.8); playSound(300, 100, 'sawtooth', 0.8); setTimeout(() => playSound(523.25, 523.25, 'sine', 0.3), 0); setTimeout(() => playSound(659.25, 659.25, 'sine', 0.3), 150); setTimeout(() => playSound(783.99, 783.99, 'sine', 0.3), 300); setTimeout(() => { playSound(1046.50, 1046.50, 'sine', 0.8); playSound(523.25, 523.25, 'square', 0.8); }, 450);
+                playSound(150, 40, 'square', 0.8, 0.02); playSound(300, 100, 'sawtooth', 0.8, 0.02); setTimeout(() => playSound(523.25, 523.25, 'sine', 0.3, 0.02), 0); setTimeout(() => playSound(659.25, 659.25, 'sine', 0.3, 0.02), 150); setTimeout(() => playSound(783.99, 783.99, 'sine', 0.3, 0.02), 300); setTimeout(() => { playSound(1046.50, 1046.50, 'sine', 0.8, 0.02); playSound(523.25, 523.25, 'square', 0.8, 0.02); }, 450);
             } else if (rarity === 'epic') {
-                setTimeout(() => playSound(440, 440, 'sine', 0.2), 0); setTimeout(() => playSound(554.37, 554.37, 'sine', 0.2), 150); setTimeout(() => playSound(659.25, 659.25, 'sine', 0.4), 300);
+                setTimeout(() => playSound(440, 440, 'sine', 0.2, 0.03), 0); setTimeout(() => playSound(554.37, 554.37, 'sine', 0.2, 0.03), 150); setTimeout(() => playSound(659.25, 659.25, 'sine', 0.4, 0.03), 300);
             } else if (rarity === 'rare') {
-                playSound(500, 700, 'sine', 0.3); setTimeout(() => playSound(700, 900, 'sine', 0.3), 150);
-            } else { playSound(400, 500, 'triangle', 0.3); }
+                playSound(500, 700, 'sine', 0.3, 0.03); setTimeout(() => playSound(700, 900, 'sine', 0.3, 0.03), 150);
+            } else { playSound(400, 500, 'triangle', 0.3, 0.03); }
         }
 
         function getRankDetails(lp) {
@@ -768,6 +825,7 @@
         function updateEconomyUI() {
             const m1 = document.getElementById('main-coins-display'); if(m1) m1.textContent = coins;
             const m2 = document.getElementById('shop-coins-display'); if(m2) m2.textContent = coins;
+            const m3 = document.getElementById('inv-coins-display'); if(m3) m3.textContent = coins;
         }
         
         function switchScreen(screenId) {
@@ -776,10 +834,13 @@
             
             if (screenId === 'game-ui') {
                 document.getElementById('game-ui').classList.add('active');
+                document.getElementById('top-left-controls').style.display = 'none';
                 document.querySelector('.top-right-btns').style.display = 'none';
             } else {
                 const targetScreen = document.getElementById(screenId);
                 if(targetScreen) targetScreen.classList.add('active');
+                
+                document.getElementById('top-left-controls').style.display = 'flex';
                 
                 if (screenId === 'start-screen') {
                     document.querySelector('.top-right-btns').style.display = 'flex';
@@ -788,9 +849,28 @@
                     document.querySelector('.top-right-btns').style.display = 'none';
                     if (screenId === 'shop-overlay') { renderInventory(); resetLootboxView(); }
                     if (screenId === 'achievements-overlay') { renderAchievements(); }
+                    if (screenId === 'tradeup-overlay') { 
+                        document.getElementById('trade-result-box').style.display = 'none';
+                        document.getElementById('full-inv-grid').style.display = 'flex';
+                        document.getElementById('tradeup-list-container').style.display = 'block';
+                        renderFullInventory(); 
+                    }
                 }
             }
             updateEconomyUI();
+        }
+
+        function checkDaily() {
+            let last = loadSecure('marysia_daily', 0);
+            let now = Date.now();
+            if (now - last > 86400000) {
+                switchScreen('daily-login-overlay');
+            }
+        }
+
+        function claimDaily() {
+            coins += 1000; saveSecure('marysia_coins', coins); saveSecure('marysia_daily', Date.now());
+            updateEconomyUI(); playWinSound('epic'); switchScreen('start-screen');
         }
 
         function spawnAstralParticle(container) {
@@ -798,8 +878,8 @@
             const p = document.createElement('div'); const isOrbit = Math.random() > 0.5; p.className = isOrbit ? 'astral-particle-orbit' : 'astral-particle-straight';
             p.style.width = (2 + Math.random() * 4) + 'px'; p.style.height = p.style.width; p.style.setProperty('--dur', (2 + Math.random() * 4) + 's');
             const isTopLeft = Math.random() > 0.5;
-            if (isOrbit) { p.style.left = isTopLeft ? '-20px' : 'calc(100vw + 20px)'; p.style.top = isTopLeft ? '-20px' : 'calc(100vh + 20px)'; p.style.setProperty('--startRot', (Math.random() * 360) + 'deg'); p.style.setProperty('--radius', (100 + Math.random() * 400) + 'px'); } 
-            else { p.style.setProperty('--startX', (Math.random() * 100) + 'vw'); p.style.setProperty('--startY', (Math.random() * 100) + 'vh'); p.style.setProperty('--targetX', isTopLeft ? '-50px' : 'calc(100vw + 50px)'); p.style.setProperty('--targetY', isTopLeft ? '-50px' : 'calc(100vh + 50px)'); }
+            if (isOrbit) { p.style.left = isTopLeft ? '25px' : 'calc(100vw - 25px)'; p.style.top = isTopLeft ? '25px' : 'calc(100vh - 25px)'; p.style.setProperty('--startRot', (Math.random() * 360) + 'deg'); p.style.setProperty('--radius', (50 + Math.random() * 300) + 'px'); } 
+            else { p.style.setProperty('--startX', (Math.random() * 100) + 'vw'); p.style.setProperty('--startY', (Math.random() * 100) + 'vh'); p.style.setProperty('--targetX', isTopLeft ? '0vw' : '100vw'); p.style.setProperty('--targetY', isTopLeft ? '0vh' : '100vh'); }
             container.appendChild(p); p.addEventListener('animationend', () => { p.remove(); spawnAstralParticle(container); });
         }
 
@@ -845,10 +925,12 @@
             }
         }
 
+        const customCursorDiv = document.getElementById('custom-cursor');
+        document.addEventListener('mousemove', (e) => { if (customCursorDiv.style.display === 'block') { customCursorDiv.style.left = e.clientX + 'px'; customCursorDiv.style.top = e.clientY + 'px'; } });
+        
         function applyEquipped() {
             const cursorItem = ALL_ITEMS.cursors.find(i => i.id === eqCursor) || ALL_ITEMS.cursors[0];
             const bgItem = ALL_ITEMS.backgrounds.find(i => i.id === eqBg) || ALL_ITEMS.backgrounds[0];
-            const customCursorDiv = document.getElementById('custom-cursor');
             
             if (cursorItem.value === 'custom') {
                 document.body.style.cursor = 'none'; document.getElementById('play-area').style.cursor = 'none'; document.getElementById('target').style.cursor = 'none';
@@ -917,24 +999,29 @@
         function resetLootboxView() {
             document.getElementById('lootbox-selection').style.display = 'flex'; document.getElementById('roulette-wrapper').style.display = 'none';
             document.getElementById('loot-result').style.display = 'none'; document.getElementById('back-to-boxes-btn').style.display = 'none'; document.getElementById('open-again-btn').style.display = 'none'; document.getElementById('loot-title').textContent = "WYBIERZ SKRZYNIĘ DO OTWARCIA";
+            const sellBtn = document.getElementById('sell-drop-btn'); if(sellBtn) sellBtn.style.display = 'none';
         }
 
-        function showErrorToast(msg) {
+        function showErrorToast(msg, color = '#ef4444') {
             const t = document.getElementById('error-toast');
-            t.textContent = msg; t.classList.add('show');
+            t.textContent = msg; 
+            t.style.background = `rgba(${color === '#10b981' ? '16,185,129' : '220,38,38'}, 0.95)`;
+            t.style.borderColor = color;
+            t.style.boxShadow = `0 10px 30px rgba(${color === '#10b981' ? '16,185,129' : '220,38,38'}, 0.5)`;
+            t.classList.add('show');
             setTimeout(() => t.classList.remove('show'), 3000);
         }
 
         function getItemVisualHTML(item, isLarge = false) {
             const bgSize = isLarge ? '100px' : '70px'; const fSize = isLarge ? '5rem' : '3.5rem';
             if (item.id.startsWith('c')) {
-                return `<div style="font-size:${fSize}; filter:drop-shadow(0 0 10px rgba(255,255,255,0.7)); display:flex; justify-content:center; align-items:center;">${item.icon}</div>`; 
+                return `<div style="font-size:${fSize}; filter:drop-shadow(0 0 10px rgba(255,255,255,0.7)); display:flex; justify-content:center; align-items:center; width:100%; height:100%;">${item.icon}</div>`; 
             } 
             else { return `<div style="width:${bgSize}; height:${bgSize}; background:${item.value}; border-radius:12px; border:2px solid rgba(255,255,255,0.4); box-shadow: 0 5px 15px rgba(0,0,0,0.8)"></div>`; }
         }
 
         function triggerAstralEffects() {
-            const flash = document.getElementById('astral-text-flash'); flash.style.animation = 'none'; void flash.offsetWidth; flash.style.animation = 'astralTextAnim 3.5s forwards'; playSound(100, 10, 'sawtooth', 3.5);
+            const flash = document.getElementById('astral-text-flash'); flash.style.animation = 'none'; void flash.offsetWidth; flash.style.animation = 'astralTextAnim 3.5s forwards'; playSound(100, 10, 'sawtooth', 3.5, 0.02);
             for(let i=0; i<80; i++) { setTimeout(() => { const s = document.createElement('div'); s.className = 'falling-star'; s.style.left = Math.random() * 100 + 'vw'; document.body.appendChild(s); setTimeout(() => s.remove(), 800); }, i * 40); }
         }
 
@@ -946,10 +1033,10 @@
             const flash = document.getElementById('divine-text-flash'); flash.style.animation = 'none'; void flash.offsetWidth;
             setTimeout(() => { const impact = document.querySelector('.divine-impact-flash'); impact.style.animation = 'none'; void impact.offsetWidth; impact.style.animation = 'divineImpact 2s forwards'; flash.style.animation = 'divineTextAnim 5s forwards'; setTimeout(() => { document.getElementById('divine-cinematic').style.display = 'none'; }, 2000); }, 4500);
             
-            playSound(30, 80, 'sawtooth', 4.5, 0.1); 
-            setTimeout(() => playSound(80, 200, 'sine', 3.5, 0.05), 1000);
+            playSound(30, 80, 'sawtooth', 4.5, 0.04); 
+            setTimeout(() => playSound(80, 200, 'sine', 3.5, 0.02), 1000);
             setTimeout(() => { 
-                playSound(65.41, 65.41, 'sawtooth', 4.0, 0.1); playSound(130.81, 130.81, 'square', 4.0, 0.08); playSound(261.63, 261.63, 'triangle', 4.0, 0.05); playSound(392.00, 392.00, 'sine', 4.0, 0.05); playSound(523.25, 523.25, 'sine', 4.0, 0.05); playSound(783.99, 783.99, 'sine', 4.0, 0.05); playSound(2093, 1046.5, 'sine', 2.0, 0.05);
+                playSound(65.41, 65.41, 'sawtooth', 4.0, 0.04); playSound(130.81, 130.81, 'square', 4.0, 0.03); playSound(261.63, 261.63, 'triangle', 4.0, 0.02); playSound(392.00, 392.00, 'sine', 4.0, 0.02); playSound(523.25, 523.25, 'sine', 4.0, 0.02); playSound(783.99, 783.99, 'sine', 4.0, 0.02); playSound(2093, 1046.5, 'sine', 2.0, 0.02);
             }, 4500);
         }
 
@@ -975,17 +1062,37 @@
             }
         }
 
+        function closeTradeResult() {
+            document.getElementById('trade-result-box').style.display = 'none';
+            document.getElementById('full-inv-grid').style.display = 'flex';
+            document.getElementById('tradeup-list-container').style.display = 'block';
+            renderFullInventory();
+        }
+
+        function sellCurrentDrop() {
+            let idx = unlockedItems.indexOf(window.currentDropId);
+            if(idx > -1) {
+                unlockedItems.splice(idx, 1); localStorage.setItem('marysia_unlocked', JSON.stringify(unlockedItems));
+                coins += window.currentDropRefund; saveSecure('marysia_coins', coins); updateEconomyUI();
+                showErrorToast(`Sprzedano za +${window.currentDropRefund} 💰`, '#10b981');
+                const sellBtn = document.getElementById('sell-drop-btn'); if(sellBtn) sellBtn.style.display = 'none';
+            }
+        }
+
         function openAgainBox() { 
             if(coins < BOX_CONFIG[currentOpenedBox].price) { showErrorToast("BRAK WYSTARCZAJĄCEJ ILOŚCI MONET!"); return; }
             resetLootboxView(); if(currentOpenedBox) buyBox(currentOpenedBox); 
         }
 
         function buyBox(type) {
+            if (isOpeningBox) return;
             currentOpenedBox = type; const config = BOX_CONFIG[type];
             if (coins < config.price) { showErrorToast("BRAK WYSTARCZAJĄCEJ ILOŚCI MONET!"); return; }
+            isOpeningBox = true;
             coins -= config.price; saveSecure('marysia_coins', coins); updateEconomyUI(); lifetimeStats.boxesOpened++; localStorage.setItem('marysia_lifetime_stats', JSON.stringify(lifetimeStats));
             
             document.getElementById('lootbox-selection').style.display = 'none'; document.getElementById('loot-result').style.display = 'none'; document.getElementById('back-to-boxes-btn').style.display = 'none'; document.getElementById('open-again-btn').style.display = 'none';
+            const sellBtn = document.getElementById('sell-drop-btn'); if(sellBtn) sellBtn.style.display = 'none';
             document.getElementById('loot-title').textContent = config.title;
             
             const rand = Math.random(); let targetRarity = 'common';
@@ -1007,9 +1114,11 @@
             setTimeout(() => {
                 wrapper.style.display = 'none'; playWinSound(targetRarity);
 
-                const isDuplicate = unlockedItems.includes(winningItem.id); let dupRefund = 0;
-                if (!isDuplicate) { unlockedItems.push(winningItem.id); localStorage.setItem('marysia_unlocked', JSON.stringify(unlockedItems)); } 
-                else { dupRefund = DUPLICATE_REFUNDS[winningItem.rarity] || 100; coins += dupRefund; saveSecure('marysia_coins', coins); updateEconomyUI(); }
+                const isDuplicate = unlockedItems.includes(winningItem.id); 
+                let dupRefund = DUPLICATE_REFUNDS[winningItem.rarity] || 100;
+                
+                unlockedItems.push(winningItem.id); localStorage.setItem('marysia_unlocked', JSON.stringify(unlockedItems));
+                window.currentDropId = winningItem.id; window.currentDropRefund = dupRefund;
 
                 const flashOverlay = document.getElementById('rarity-flash-overlay'); flashOverlay.className = `flash-${targetRarity}`; flashOverlay.style.opacity = '1'; setTimeout(() => flashOverlay.style.opacity = '0', 500);
 
@@ -1021,24 +1130,107 @@
 
                 setTimeout(() => {
                     const resDiv = document.getElementById('loot-result'); resDiv.style.display = 'block'; resDiv.className = `bg-${winningItem.rarity}`;
-                    resDiv.innerHTML = `<div class="loot-showcase"><div class="loot-showcase-visual">${getItemVisualHTML(winningItem, true)}</div><div style="font-size: 2.5rem; font-weight: 900; line-height: 1; text-transform: uppercase; margin-bottom: 8px;" class="rarity-${winningItem.rarity}">${winningItem.name}</div><div class="rarity-label rarity-${winningItem.rarity} bg-${winningItem.rarity}" style="font-size: 1rem;">${winningItem.rarity}</div><div style="margin-top: 25px;">${isDuplicate ? `<div style="font-size: 1.4rem; color: #fbbf24; font-weight: 800; text-shadow: 0 0 10px rgba(251,191,36,0.5);">DUPLIKAT! Zwrot +${dupRefund} 💰</div>` : '<div style="font-size: 1.4rem; color: #10b981; font-weight: 800; text-shadow: 0 0 10px rgba(16,185,129,0.5);">NOWY PRZEDMIOT!</div>'}</div></div>`;
-                    document.getElementById('back-to-boxes-btn').style.display = 'block'; document.getElementById('open-again-btn').style.display = 'block'; renderInventory();
+                    resDiv.innerHTML = `<div class="loot-showcase"><div class="loot-showcase-visual">${getItemVisualHTML(winningItem, true)}</div><div style="font-size: 2.5rem; font-weight: 900; line-height: 1; text-transform: uppercase; margin-bottom: 8px;" class="rarity-${winningItem.rarity}">${winningItem.name}</div><div class="rarity-label rarity-${winningItem.rarity} bg-${winningItem.rarity}" style="font-size: 1rem;">${winningItem.rarity}</div><div style="margin-top: 25px;">${isDuplicate ? `<div style="font-size: 1.4rem; color: #fbbf24; font-weight: 800; text-shadow: 0 0 10px rgba(251,191,36,0.5);">DUPLIKAT! (Zapisano w Ekwipunku)</div>` : '<div style="font-size: 1.4rem; color: #10b981; font-weight: 800; text-shadow: 0 0 10px rgba(16,185,129,0.5);">NOWY PRZEDMIOT!</div>'}</div></div>`;
+                    
+                    document.getElementById('back-to-boxes-btn').style.display = 'block'; document.getElementById('open-again-btn').style.display = 'block'; 
+                    let sellBtnDOM = document.getElementById('sell-drop-btn');
+                    if (!sellBtnDOM) { sellBtnDOM = document.createElement('button'); sellBtnDOM.id = 'sell-drop-btn'; sellBtnDOM.className = 'btn'; sellBtnDOM.style.background = 'linear-gradient(135deg, #ef4444, #b91c1c)'; sellBtnDOM.style.boxShadow = '0 10px 25px rgba(239, 68, 68, 0.4)'; sellBtnDOM.onclick = sellCurrentDrop; document.getElementById('open-again-btn').parentNode.appendChild(sellBtnDOM); }
+                    sellBtnDOM.style.display = isDuplicate ? 'block' : 'none'; sellBtnDOM.textContent = `Sprzedaj (+${dupRefund} 💰)`;
+                    isOpeningBox = false;
                 }, showResultDelay);
             }, 4600);
+        }
+
+        function renderFullInventory() {
+            let counts = {}; unlockedItems.forEach(i => counts[i] = (counts[i] || 0) + 1);
+            const grid = document.getElementById('full-inv-grid'); if(!grid) return; grid.innerHTML = '';
+            
+            let uniqueItems = [...new Set(unlockedItems)];
+            uniqueItems.sort((a,b) => {
+                let itemA = [...ALL_ITEMS.cursors, ...ALL_ITEMS.backgrounds].find(x=>x.id===a); let itemB = [...ALL_ITEMS.cursors, ...ALL_ITEMS.backgrounds].find(x=>x.id===b);
+                return RARITY_ORDER.indexOf(itemB.rarity) - RARITY_ORDER.indexOf(itemA.rarity);
+            });
+
+            let hasDuplicates = false;
+            uniqueItems.forEach(id => {
+                let qty = counts[id]; if(qty <= 1) return;
+                hasDuplicates = true; let item = [...ALL_ITEMS.cursors, ...ALL_ITEMS.backgrounds].find(x=>x.id===id); if(!item) return;
+                
+                let sellPrice = DUPLICATE_REFUNDS[item.rarity] || 100; let dupCount = qty - 1;
+                let html = `<div class="inv-sell-card"><div class="dup-badge">+${dupCount}</div>${getItemVisualHTML(item, false)}<div style="font-size:0.8rem; font-weight:800; margin-top:8px; text-transform:uppercase; text-align:center; color:#fff;">${item.name}</div><button class="inv-sell-btn" onclick="sellItemFromInv('${id}')">Sprzedaj 1 szt. (+${sellPrice})</button></div>`;
+                grid.innerHTML += html;
+            });
+            if(!hasDuplicates) { grid.innerHTML = '<div style="color:var(--text-muted); font-size:0.9rem; text-align:center; width:100%; padding: 20px 0;">Brak duplikatów do sprzedania. Otwórz więcej skrzynek!</div>'; }
+            
+            let spares = {common:0, rare:0, epic:0, legendary:0, mythic:0, astral:0};
+            for (let id in counts) { let item = [...ALL_ITEMS.cursors, ...ALL_ITEMS.backgrounds].find(x => x.id === id); if (item && spares[item.rarity] !== undefined && counts[id] > 1) { spares[item.rarity] += (counts[id] - 1); } }
+            
+            let htmlList = '';
+            for(let i=0; i<RARITY_ORDER.length - 1; i++) {
+                let r = RARITY_ORDER[i]; let nextR = RARITY_ORDER[i+1]; let canTrade = spares[r] >= 5;
+                htmlList += `<div class="trade-row"><span class="trade-info" style="color: var(--text-main);"><span class="rarity-${r}">${r}</span> (${spares[r]}/5) ➜ <span class="rarity-${nextR}">${nextR}</span></span><button class="btn" style="padding: 10px 20px; font-size: 0.9rem;" ${canTrade ? '' : 'disabled opacity="0.3" cursor="not-allowed"'} ${canTrade ? `onclick="doTradeUp('${r}')"` : ''}>Wymień</button></div>`;
+            }
+            document.getElementById('tradeup-list').innerHTML = htmlList;
+        }
+
+        function sellItemFromInv(id) {
+            let idx = unlockedItems.lastIndexOf(id); 
+            if(idx > -1) {
+                let item = [...ALL_ITEMS.cursors, ...ALL_ITEMS.backgrounds].find(x=>x.id===id); let price = DUPLICATE_REFUNDS[item.rarity] || 100;
+                unlockedItems.splice(idx, 1); localStorage.setItem('marysia_unlocked', JSON.stringify(unlockedItems)); coins += price; saveSecure('marysia_coins', coins); updateEconomyUI(); renderFullInventory();
+                showErrorToast(`Sprzedano za +${price} 💰`, '#10b981');
+            }
+        }
+
+        function doTradeUp(rarity) {
+            let counts = {}; unlockedItems.forEach(i => counts[i] = (counts[i] || 0) + 1); let consumed = 0; let newUnlocked = [];
+            for (let i = 0; i < unlockedItems.length; i++) {
+                let id = unlockedItems[i]; let item = [...ALL_ITEMS.cursors, ...ALL_ITEMS.backgrounds].find(x => x.id === id);
+                if (item && item.rarity === rarity && counts[id] > 1 && consumed < 5) { counts[id]--; consumed++; } else { newUnlocked.push(id); }
+            }
+            unlockedItems = newUnlocked;
+            let nextIdx = RARITY_ORDER.indexOf(rarity) + 1; let nextRarity = RARITY_ORDER[nextIdx];
+            let possibleItems = lootboxDropPoolFiltered.filter(i => i.rarity === nextRarity); let won = possibleItems[Math.floor(Math.random() * possibleItems.length)];
+            unlockedItems.push(won.id); localStorage.setItem('marysia_unlocked', JSON.stringify(unlockedItems));
+
+            document.getElementById('full-inv-grid').style.display = 'none'; document.getElementById('tradeup-list-container').style.display = 'none'; document.getElementById('trade-result-box').style.display = 'none';
+            playSound(50, 600, 'sine', 1.2, 0.04); playSound(100, 800, 'sawtooth', 1.2, 0.02);
+            
+            for(let i=0; i<60; i++) {
+                setTimeout(() => {
+                    const p = document.createElement('div'); p.className = 'trade-particle'; p.style.background = ['#fbbf24', '#f472b6', '#38bdf8', '#a855f7'][Math.floor(Math.random()*4)]; p.style.width = `${6 + Math.random()*10}px`; p.style.height = p.style.width; p.style.boxShadow = `0 0 10px ${p.style.background}`;
+                    const angle = Math.random() * Math.PI * 2; const radius = 100 + Math.random() * 300; p.style.setProperty('--startX', `calc(50vw + ${Math.cos(angle) * radius}px)`); p.style.setProperty('--startY', `calc(50vh + ${Math.sin(angle) * radius}px)`); document.body.appendChild(p);
+                    setTimeout(() => p.remove(), 600);
+                }, i * 20);
+            }
+            
+            setTimeout(() => {
+                const flash = document.getElementById('trade-flash');
+                if(flash) { flash.style.display = 'block'; flash.style.animation = 'none'; void flash.offsetWidth; flash.style.animation = 'tradeFlashAnim 1s ease-out forwards'; }
+                playSound(300, 50, 'square', 1.0, 0.05); playSound(150, 20, 'sawtooth', 1.5, 0.04);
+                
+                document.getElementById('trade-result-img').innerHTML = getItemVisualHTML(won, true); document.getElementById('trade-result-name').textContent = won.name; document.getElementById('trade-result-rarity').textContent = won.rarity; document.getElementById('trade-result-rarity').className = `rarity-label rarity-${won.rarity} bg-${won.rarity}`;
+                
+                const resBox = document.getElementById('trade-result-box'); resBox.style.display = 'flex'; resBox.style.animation = 'none'; void resBox.offsetWidth; resBox.style.animation = 'dropReveal 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards';
+                
+                if(flash) setTimeout(() => { flash.style.display = 'none'; }, 1000);
+            }, 1200); 
         }
 
         function renderInventory() {
             const curGrid = document.getElementById('cursors-grid'); const bgGrid = document.getElementById('bg-grid'); if(!curGrid || !bgGrid) return;
             curGrid.innerHTML = ''; bgGrid.innerHTML = '';
+            let counts = {}; unlockedItems.forEach(i => counts[i] = (counts[i] || 0) + 1);
+
             ALL_ITEMS.cursors.forEach(i => {
-                const isUnlocked = unlockedItems.includes(i.id); const isEquipped = eqCursor === i.id;
+                const isUnlocked = counts[i.id] > 0; const isEquipped = eqCursor === i.id;
                 const el = document.createElement('div'); el.className = `inv-item ${isEquipped ? 'equipped' : ''} ${!isUnlocked ? 'locked' : ''}`;
                 let previewVal = i.value === 'custom' ? `background: ${i.id === 'c9' ? '#f43f5e' : i.id === 'c11' ? '#a855f7' : (i.id==='c12' ? '#fbbf24' : '#38bdf8')}; border-radius: 50%; box-shadow: 0 0 15px ${i.id === 'c9' ? '#f43f5e' : i.id === 'c11' ? '#a855f7' : (i.id==='c12' ? '#fbbf24' : '#38bdf8')};` : `cursor:${i.value};`;
                 el.innerHTML = `<div class="item-preview" style="${previewVal}; display:flex; justify-content:center; align-items:center;">${i.icon}</div><div class="item-name">${i.name}</div><div class="rarity-label rarity-${i.rarity} bg-${i.rarity}">${i.rarity}</div>`;
                 if(isUnlocked) el.onclick = () => { eqCursor = i.id; localStorage.setItem('marysia_eq_c', eqCursor); applyEquipped(); renderInventory(); }; curGrid.appendChild(el);
             });
             ALL_ITEMS.backgrounds.forEach(i => {
-                const isUnlocked = unlockedItems.includes(i.id); const isEquipped = eqBg === i.id;
+                const isUnlocked = counts[i.id] > 0; const isEquipped = eqBg === i.id;
                 const el = document.createElement('div'); el.className = `inv-item ${isEquipped ? 'equipped' : ''} ${!isUnlocked ? 'locked' : ''}`;
                 el.innerHTML = `<div class="item-preview bg-prev" style="background:${i.value}; font-size:1.8rem; display:flex; justify-content:center; align-items:center;">${i.icon}</div><div class="item-name">${i.name}</div><div class="rarity-label rarity-${i.rarity} bg-${i.rarity}">${i.rarity}</div>`;
                 if(isUnlocked) el.onclick = () => { eqBg = i.id; localStorage.setItem('marysia_eq_b', eqBg); applyEquipped(); renderInventory(); }; bgGrid.appendChild(el);
@@ -1051,8 +1243,7 @@
                 try {
                     if (ach.current(stats) >= ach.max) {
                         unlockedAchievements.push(ach.id); localStorage.setItem('marysia_achievements', JSON.stringify(unlockedAchievements));
-                        coins += ach.reward; saveSecure('marysia_coins', coins); updateEconomyUI();
-                        showAchToast(ach); playWinSound('legendary');
+                        coins += ach.reward; saveSecure('marysia_coins', coins); updateEconomyUI(); showAchToast(ach); playWinSound('legendary');
                     }
                 } catch(e) {}
             });
@@ -1064,11 +1255,23 @@
             toast.classList.add('show'); setTimeout(() => toast.classList.remove('show'), 4000);
         }
 
-        function startGame() {
+        function initiateGame() {
+            try { if (audioCtx && audioCtx.state === 'suspended') audioCtx.resume(); } catch(e){}
+            let scores = safeParseJSON('marysia_aim_scores', []); topScoreBefore = scores.length > 0 ? scores[0].score : 0; 
+            switchScreen('game-ui'); document.getElementById('cheat-menu').classList.remove('active'); 
+            
+            const cdOverlay = document.getElementById('countdown-overlay'); const cdText = document.getElementById('countdown-text');
+            cdOverlay.style.display = 'flex'; cdText.style.animation = 'none'; void cdText.offsetWidth; cdText.style.animation = 'pop 1s forwards';
+            playSound(800, 800, 'sine', 0.2, 0.05);
+            
+            setTimeout(() => { cdOverlay.style.display = 'none'; startGameLogic(); }, 1000); 
+        }
+
+        function startGameLogic() {
             hits = 0; misses = 0; currentPoints = 0; goldenHits = 0; currentCombo = 0; maxCombo = 0; totalComboBonus = 0; timeLeft = GAME_DURATION; gameTotalTime = GAME_DURATION; isPlaying = true;
-            document.getElementById('cheat-menu').classList.remove('active'); document.getElementById('main-container').classList.remove('on-fire'); 
+            document.getElementById('main-container').classList.remove('on-fire'); 
             sessionCheated = document.getElementById('cheat-autoclick').checked || document.getElementById('cheat-aimbot').checked || document.getElementById('cheat-bighead').checked || document.getElementById('cheat-nomiss').checked;
-            updateUI(); switchScreen('game-ui'); toggleHUD(true); 
+            updateUI(); toggleHUD(true); 
             clearInterval(gameInterval); clearInterval(targetInterval); gameInterval = setInterval(updateTime, 1000); moveTarget();
         }
 
@@ -1126,54 +1329,40 @@
         function endGame(isAborted = false) {
             isPlaying = false; clearInterval(gameInterval); clearInterval(targetInterval); clearTimeout(aimbotTimeout);
             document.getElementById('target').classList.remove('active'); document.getElementById('main-container').classList.remove('on-fire'); toggleHUD(false); 
-            
-            let availableCats = Math.max(1, calculateUnlockedCats(getCatLevel(totalXP))); let catIndex = Math.floor(Math.random() * availableCats); if (catIndex >= FLASH_CATS.length) catIndex = FLASH_CATS.length - 1;
-            document.getElementById('flash-img').src = FLASH_CATS[catIndex];
-            
-            document.querySelectorAll('.screen-overlay').forEach(el => el.classList.remove('active')); document.getElementById('game-ui').classList.remove('active');
-            document.getElementById('flash-container').classList.add('active');
+            let availableCats = Math.max(1, calculateUnlockedCats(getCatLevel(totalXP))); let catIndex = Math.floor(Math.random() * availableCats); if (catIndex >= FLASH_CATS.length) catIndex = FLASH_CATS.length - 1; document.getElementById('flash-img').src = FLASH_CATS[catIndex];
+            document.querySelectorAll('.screen-overlay').forEach(el => el.classList.remove('active')); document.getElementById('game-ui').classList.remove('active'); document.getElementById('flash-container').classList.add('active');
             setTimeout(() => { document.getElementById('flash-container').classList.remove('active'); showFinalResults(isAborted); }, 600); 
         }
         
         function calculateLPGain(score, accuracy, totalH, isAborted, timeL, currentLP) {
             if (sessionCheated) return 0;
-            if (isAborted) { 
-                if (timeL > gameTotalTime / 2) return 0; 
-                return -35; 
-            }
+            if (isAborted) { if (timeL > gameTotalTime / 2) return 0; return -35; }
             if (totalH === 0) return -35; 
             
-            let expectedScore = 1000;
-            let difference = score - expectedScore;
+            let expectedScore = 500 + Math.floor(currentLP * 0.6); let difference = score - expectedScore;
+            let lossMultiplier = currentLP < 1000 ? 0.5 : (currentLP < 2000 ? 0.8 : 1.0);
             
             let gain = 0;
-            if (difference >= 0) { gain = 10 + Math.floor(difference / 50); } 
-            else { gain = Math.floor(difference / 30); } 
+            if (difference >= 0) { gain = 15 + Math.floor(difference / 40); } else { gain = Math.floor((difference / 30) * lossMultiplier); } 
             
-            let mult = currentMode === 'chill' ? 0.8 : currentMode === 'hard' ? 1.5 : 1.0;
-            gain = Math.floor(gain * mult);
+            let mult = currentMode === 'chill' ? 0.8 : currentMode === 'hard' ? 1.5 : 1.0; gain = Math.floor(gain * mult);
+            if (accuracy < 40) gain -= 15; else if (accuracy >= 90) gain += 10;
             
-            if (accuracy < 40) gain -= 15; else if (accuracy > 85) gain += 10;
-            
-            let maxLoss = currentLP < 500 ? -10 : (currentLP < 1500 ? -20 : -40);
-            return Math.min(Math.max(gain, maxLoss), 75); 
+            let maxLoss = currentLP < 500 ? -5 : (currentLP < 1500 ? -15 : -30); return Math.min(Math.max(gain, maxLoss), 75); 
         }
 
         function showFinalResults(isAborted) {
             switchScreen('end-screen');
             let actualMisses = document.getElementById('cheat-nomiss').checked ? 0 : misses;
-            const finalScore = currentPoints;
-            const accuracy = (hits + goldenHits + actualMisses) === 0 ? 0 : Math.round(((hits + goldenHits) / (hits + goldenHits + actualMisses)) * 100);
+            const finalScore = currentPoints; const accuracy = (hits + goldenHits + actualMisses) === 0 ? 0 : Math.round(((hits + goldenHits) / (hits + goldenHits + actualMisses)) * 100);
             
             document.getElementById('end-score').textContent = finalScore; document.getElementById('end-hits').textContent = hits + goldenHits;
             document.getElementById('end-misses').textContent = actualMisses; document.getElementById('end-accuracy').textContent = `${accuracy}%`; 
             document.getElementById('end-combo').textContent = `x${maxCombo}`; document.getElementById('end-combo').style.color = getComboColor(maxCombo);
             
-            let lpChange = calculateLPGain(finalScore, accuracy, hits + goldenHits, isAborted, timeLeft, totalLP);
-            let previousLP = totalLP; let prevRank = getRankDetails(previousLP);
+            let lpChange = calculateLPGain(finalScore, accuracy, hits + goldenHits, isAborted, timeLeft, totalLP); let previousLP = totalLP; let prevRank = getRankDetails(previousLP);
             
-            document.getElementById('highscore-title').style.display = 'none'; document.getElementById('highscore-title').className = '';
-            document.getElementById('new-alert-msg').style.display = 'none'; document.getElementById('level-up-alert').style.display = 'none';
+            document.getElementById('highscore-title').style.display = 'none'; document.getElementById('highscore-title').className = ''; document.getElementById('new-alert-msg').style.display = 'none'; document.getElementById('level-up-alert').style.display = 'none';
             
             if (sessionCheated) {
                 document.getElementById('highscore-title').textContent = "Z CHEATAMI - BRAK REKORDU"; document.getElementById('highscore-title').classList.add('active-cheat'); document.getElementById('highscore-title').style.display = 'block';
@@ -1183,23 +1372,21 @@
                 document.getElementById('end-xp-earned').style.opacity = '0'; document.getElementById('end-coins-earned').style.opacity = '0';
             } else {
                 totalLP = Math.max(0, totalLP + lpChange); saveSecure('marysia_lp_v2', totalLP);
-                let earnedCoins = Math.floor(finalScore * 0.1) + (goldenHits * 10); coins += earnedCoins; saveSecure('marysia_coins', coins);
-                document.getElementById('end-coins-earned').textContent = `+${earnedCoins} 💰`; document.getElementById('end-coins-earned').style.opacity = '1';
+                let earnedCoins = Math.floor(finalScore * 0.1) + (goldenHits * 10); let accBonus = 0;
+                if (accuracy === 100 && (hits + goldenHits) > 0) accBonus = Math.floor(earnedCoins * 0.5); else if (accuracy >= 90 && (hits + goldenHits) > 0) accBonus = Math.floor(earnedCoins * 0.25);
+                earnedCoins += accBonus; coins += earnedCoins; saveSecure('marysia_coins', coins);
+                let coinHtml = `+${earnedCoins} 💰`; if (accBonus > 0) coinHtml += `<div style="font-size:0.8rem; color:var(--text-muted); margin-top:5px; line-height:1;">W tym +${accBonus} za celność</div>`;
+                document.getElementById('end-coins-earned').innerHTML = coinHtml; document.getElementById('end-coins-earned').style.opacity = '1';
                 
-                let earnedXP = Math.floor(finalScore / 10); let oldLvl = getCatLevel(totalXP); 
-                totalXP += earnedXP; saveSecure('marysia_total_xp', totalXP);
+                let earnedXP = Math.floor(finalScore / 10); let oldLvl = getCatLevel(totalXP); totalXP += earnedXP; saveSecure('marysia_total_xp', totalXP);
                 document.getElementById('end-xp-earned').textContent = `+${earnedXP} XP`; document.getElementById('end-xp-earned').style.opacity = '1';
 
                 lifetimeStats.games++; lifetimeStats.hits += hits; lifetimeStats.gold += goldenHits; lifetimeStats.totalScore += finalScore; if (maxCombo > lifetimeStats.maxCombo) lifetimeStats.maxCombo = maxCombo;
                 lifetimeStats._latestAcc = accuracy; lifetimeStats._latestHits = hits + goldenHits; localStorage.setItem('marysia_lifetime_stats', JSON.stringify(lifetimeStats)); checkAchievements(lifetimeStats);
 
-                if (getCatLevel(totalXP) > oldLvl) {
-                    let newLvl = getCatLevel(totalXP); playLevelUpSound(); 
-                    document.getElementById('level-up-alert').style.display = 'block'; document.getElementById('level-up-alert').innerHTML = `🎉 LEVEL UP! POZIOM <span class="level-num-wrapper" id="lvl-anim-wrap"><span class="level-num-old">${oldLvl}</span><span class="level-num-new">${newLvl}</span></span> 🎉`; setTimeout(() => { document.getElementById('lvl-anim-wrap').classList.add('level-animate'); }, 100);
-                }
+                if (getCatLevel(totalXP) > oldLvl) { let newLvl = getCatLevel(totalXP); playLevelUpSound(); document.getElementById('level-up-alert').style.display = 'block'; document.getElementById('level-up-alert').innerHTML = `🎉 LEVEL UP! POZIOM <span class="level-num-wrapper" id="lvl-anim-wrap"><span class="level-num-old">${oldLvl}</span><span class="level-num-new">${newLvl}</span></span> 🎉`; setTimeout(() => { document.getElementById('lvl-anim-wrap').classList.add('level-animate'); }, 100); }
 
-                let scores = safeParseJSON('marysia_aim_scores', []);
-                scores.push({ score: finalScore, rankName: getRankDetails(totalLP).name, rankColor: getRankDetails(totalLP).color, modeName: MODES[currentMode].name, duration: GAME_DURATION, date: new Date().getTime() });
+                let scores = safeParseJSON('marysia_aim_scores', []); scores.push({ score: finalScore, rankName: getRankDetails(totalLP).name, rankColor: getRankDetails(totalLP).color, modeName: MODES[currentMode].name, duration: GAME_DURATION, date: new Date().getTime() });
                 scores.sort((a, b) => b.score - a.score); scores = scores.slice(0, 5); localStorage.setItem('marysia_aim_scores', JSON.stringify(scores));
                 if (finalScore > topScoreBefore && finalScore > 0 && !isAborted) triggerHighscoreEffects();
             }
@@ -1209,46 +1396,31 @@
             document.getElementById('end-rank-div').textContent = newRank.div; document.getElementById('end-rank-div').style.display = newRank.div === "" ? "none" : "block";
             document.getElementById('lp-total-text').textContent = `Total: ${totalLP} LP`; document.getElementById('lp-progress-text').textContent = newRank.name === "Champion" ? `${totalLP} LP` : `${newRank.progress}/100 LP`;
             
-            const lpBar = document.getElementById('lp-bar-fill'); lpBar.style.backgroundColor = newRank.color; lpBar.style.width = '0%'; setTimeout(() => { lpBar.style.width = `${newRank.progress}%`; }, 100);
-            updateLevelUI();
+            const lpBar = document.getElementById('lp-bar-fill'); lpBar.style.backgroundColor = newRank.color; lpBar.style.width = '0%'; setTimeout(() => { lpBar.style.width = `${newRank.progress}%`; }, 100); updateLevelUI();
             
             const lpChangeEl = document.getElementById('lp-change');
-            if(lpChange > 0) { lpChangeEl.textContent = `+${lpChange} LP`; lpChangeEl.style.color = '#10b981'; } 
-            else if (lpChange < 0) { lpChangeEl.textContent = `${lpChange} LP`; lpChangeEl.style.color = '#ef4444'; } 
-            else { lpChangeEl.textContent = `0 LP`; lpChangeEl.style.color = 'var(--text-muted)'; }
-            setTimeout(() => lpChangeEl.classList.add('show'), 500);
+            if(lpChange > 0) { lpChangeEl.textContent = `+${lpChange} LP`; lpChangeEl.style.color = '#10b981'; } else if (lpChange < 0) { lpChangeEl.textContent = `${lpChange} LP`; lpChangeEl.style.color = '#ef4444'; } else { lpChangeEl.textContent = `0 LP`; lpChangeEl.style.color = 'var(--text-muted)'; } setTimeout(() => lpChangeEl.classList.add('show'), 500);
 
             if (!isAborted && !sessionCheated && (newRank.name !== prevRank.name || newRank.div !== prevRank.div)) {
-                if (totalLP > previousLP) { triggerRankUp(newRank); } 
-                else if (totalLP < previousLP) { document.getElementById('new-alert-msg').textContent = "SPADEK DYWIZJI 📉"; document.getElementById('new-alert-msg').style.color = "#ef4444"; document.getElementById('new-alert-msg').style.display = 'block'; }
+                if (totalLP > previousLP) { triggerRankUp(newRank); } else if (totalLP < previousLP) { document.getElementById('new-alert-msg').textContent = "SPADEK DYWIZJI 📉"; document.getElementById('new-alert-msg').style.color = "#ef4444"; document.getElementById('new-alert-msg').style.display = 'block'; }
             }
         }
 
         document.addEventListener('DOMContentLoaded', () => {
-            const customCursorDiv = document.getElementById('custom-cursor');
-            document.addEventListener('mousemove', (e) => { if (customCursorDiv.style.display === 'block') { customCursorDiv.style.left = e.clientX + 'px'; customCursorDiv.style.top = e.clientY + 'px'; } });
-            
+            const customCursorDiv = document.getElementById('custom-cursor'); document.addEventListener('mousemove', (e) => { if (customCursorDiv.style.display === 'block') { customCursorDiv.style.left = e.clientX + 'px'; customCursorDiv.style.top = e.clientY + 'px'; } });
             document.getElementById('cheat-toggle-btn').addEventListener('click', () => document.getElementById('cheat-menu').classList.toggle('active'));
             document.querySelectorAll('.cheat-option input').forEach(input => { input.addEventListener('change', () => { if (isPlaying && input.checked) sessionCheated = true; }); });
-            
             document.getElementById('abort-btn').addEventListener('click', () => { if(isPlaying) endGame(true); });
             document.querySelectorAll('#start-modes .mode-btn').forEach(btn => { btn.addEventListener('click', (e) => { document.querySelectorAll('#start-modes .mode-btn').forEach(b => b.classList.remove('active')); e.target.classList.add('active'); currentMode = e.target.getAttribute('data-mode'); }); });
             document.querySelectorAll('.time-btn').forEach(btn => { btn.addEventListener('click', (e) => { document.querySelectorAll('.time-btn').forEach(b => b.classList.remove('active')); e.target.classList.add('active'); GAME_DURATION = parseInt(e.target.getAttribute('data-time')); }); });
-            
-            document.getElementById('start-btn').addEventListener('click', () => { 
-                try { if (audioCtx && audioCtx.state === 'suspended') audioCtx.resume(); } catch(e){}
-                let scores = safeParseJSON('marysia_aim_scores', []); topScoreBefore = scores.length > 0 ? scores[0].score : 0; 
-                startGame(); 
-            });
-            
+            document.getElementById('vol-slider').addEventListener('input', (e) => { globalVolume = e.target.value; saveSecure('marysia_vol', globalVolume); });
+            document.getElementById('start-btn').addEventListener('click', () => { initiateGame(); });
             document.getElementById('target').addEventListener('mousedown', (e) => { if (isPlaying) { e.stopPropagation(); registerHit(e.clientX, e.clientY); }});
             document.getElementById('target').addEventListener('mouseenter', (e) => { if (isPlaying && document.getElementById('cheat-autoclick').checked) { e.stopPropagation(); registerHit(e.clientX, e.clientY); }});
             document.getElementById('play-area').addEventListener('mousedown', (e) => { if (isPlaying) registerMiss(e.clientX, e.clientY); });
-
             document.addEventListener('keydown', function(event) { if (event.key.toLowerCase() === 'r') { const uiBar = document.getElementById('ui-bar'); if (uiBar && !uiBar.classList.contains('hud-hidden')) { endGame(true); } } });
 
-            applyEquipped(); updateLevelUI(); updateEconomyUI(); renderLeaderboard(); randomizeTitle();
-            switchScreen('start-screen');
+            applyEquipped(); updateLevelUI(); updateEconomyUI(); renderLeaderboard(); switchScreen('start-screen'); checkDaily();
         });
     </script>
 </body>
