@@ -1094,7 +1094,7 @@ function getPerfRank(score, mode) {
                 const du = document.getElementById('dash-username'); if(du) du.textContent = playerUsername;
                 
                 let rData = getRankDetails(totalLP);
-                const prn = document.getElementById('profile-rank-name'); if(prn) { prn.textContent = rData.name; prn.style.color = rData.color; }
+                const prn = document.getElementById('profile-rank-name'); if(prn) { prn.textContent = rData.name + (rData.div ? ' ' + rData.div : ''); prn.style.color = rData.color; }
                 const pri = document.getElementById('profile-rank-icon'); if(pri) pri.style.color = rData.color;
                 
                 const drn = document.getElementById('dash-rank-name'); if(drn) { drn.textContent = rData.name + (rData.div ? ' ' + rData.div : ''); drn.style.color = rData.color; }
