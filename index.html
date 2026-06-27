@@ -456,6 +456,7 @@ body:hover #kerwzy-mark b{color:var(--accent);text-shadow:0 0 14px var(--accent)
             <div class="setting"><label>Czas testu (s)</label><div class="row" id="st-time-type"><button class="btn-tab" data-t="15">15s</button><button class="btn-tab active" data-t="30">30s</button><button class="btn-tab" data-t="60">60s</button><input type="number" id="custom-time-type" class="input-time" placeholder="Inny..." /></div></div>
             <div class="setting"><label>Język / Baza</label><div class="row" id="st-lang"><button class="btn-tab active" data-l="pl">Polski</button><button class="btn-tab" data-l="en">English</button></div></div>
             <div class="setting"><label>Format</label><div class="row" id="st-tmode"><button class="btn-tab active" data-m="words">Słowa</button><button class="btn-tab" data-m="sentences">Zdania</button></div></div>
+            <div class="setting"><label>Interpunkcja</label><div class="row" id="st-tpunct"><button class="btn-tab active" data-p="0">Wyłączona</button><button class="btn-tab" data-p="1">Włączona</button></div></div>
           </div>
         </div>
         <div class="footer">
@@ -689,7 +690,7 @@ const defaults = {
   name:null,coins:200,xp:0,lp:0,level:1,sessions:0,avatar:null,bests:{},history:[],
   unlocked:{t_default:1,c_cross:1,c_dot:1,b_grid:1,b_plain:1,f_basic:1},duplicates:{},
   equipped:{target:"t_default",cursor:"c_cross",bg:"b_grid",fx:"f_basic"},
-  settings:{mode:"normal",duration:60,targetSize:52,spawnSpeed:1.0,volume:0.6,muted:false,damageNumbers:true,typeTime:30,typeLang:"pl",typeMode:"words"},
+  settings:{mode:"normal",duration:60,targetSize:52,spawnSpeed:1.0,volume:0.6,muted:false,damageNumbers:true,typeTime:30,typeLang:"pl",typeMode:"words",typePunct:false},
   cheats:{aim:false,big:false,nomiss:false},achievements:{}
 };
 
@@ -782,8 +783,6 @@ document.addEventListener("pointerdown", e => {
 
 addEventListener("pointerup", () => { if (G) G.mouseDown = false; });
 addEventListener("pointercancel", () => { if (G) G.mouseDown = false; });
-document.addEventListener("mouseleave", () => { elCursorWrap.style.opacity="0"; });
-document.addEventListener("mouseenter", () => { manageCursorVisibility(); });
 
 function openO(id){closeOverlays();$id(id).classList.add("active");manageCursorVisibility();}
 function closeOverlays(){$$(".overlay").forEach(o=>o.classList.remove("active"));}
@@ -889,6 +888,10 @@ function bindSettings(){
   $$("#st-tmode .btn-tab").forEach(b=>{
     b.classList.toggle("active",b.dataset.m===S.settings.typeMode);
     b.onclick=()=>{$$("#st-tmode .btn-tab").forEach(x=>x.classList.remove("active"));b.classList.add("active");S.settings.typeMode=b.dataset.m;save();};
+  });
+  $$("#st-tpunct .btn-tab").forEach(b=>{
+    b.classList.toggle("active", (b.dataset.p==="1") === !!S.settings.typePunct);
+    b.onclick=()=>{$$("#st-tpunct .btn-tab").forEach(x=>x.classList.remove("active"));b.classList.add("active");S.settings.typePunct=(b.dataset.p==="1");save();};
   });
 }
 
@@ -1357,12 +1360,15 @@ function appendTypingWords(count){
   if(S.settings.typeMode==="sentences"){
     const sPool=S.settings.typeLang==="pl"?SENTENCES_PL:SENTENCES_EN;
     while(pool.length<count){
-      const s=sPool[Math.floor(Math.random()*sPool.length)];
-      pool.push(...s.split(" "));
+      let s=sPool[Math.floor(Math.random()*sPool.length)];
+      if(!S.settings.typePunct) s = s.toLowerCase().replace(/[.,?!:;"'()[\]\-]/g, "");
+      pool.push(...s.split(" ").filter(Boolean));
     }
   }else{
     const wPool=DICT[S.settings.typeLang]||DICT["pl"];
-    pool=[...wPool].sort(()=>Math.random()-.5).slice(0,count);
+    let tempPool=[...wPool].sort(()=>Math.random()-.5).slice(0,count);
+    if(!S.settings.typePunct) tempPool=tempPool.map(w=>w.toLowerCase().replace(/[.,?!:;"'()[\]\-]/g, ""));
+    pool=tempPool;
   }
   pool.slice(0,count).forEach(w=>{
     const wd=document.createElement("div");wd.className="word";
