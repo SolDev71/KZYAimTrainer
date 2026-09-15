@@ -115,7 +115,8 @@ body[data-theme="mono"] .nv-tab-close:hover{color:var(--bg-deep);}
 .browser-viewport{flex:1;position:relative;display:flex;flex-direction:column;overflow:hidden;background:#0a0c12;}
 .browser-view-layer{position:absolute;inset:0;display:none;flex-direction:column;background:var(--bg-deep,#030305);}
 .browser-view-layer.active{display:flex;}
-.web-page-content{padding:32px;font-size:14px;line-height:1.7;color:var(--text-dim,#a1a1aa);flex:1;overflow-y:auto;overflow-x:hidden;background:var(--bg-deep,#030305);}
+.web-page-content{padding:32px;font-size:14px;line-height:1.7;color:var(--text-dim,#a1a1aa);flex:1;overflow-y:auto;overflow-x:hidden;background:var(--bg-deep,#030305);user-select:text;cursor:auto;}
+.web-page-content *{cursor:auto;}
 .web-page-content:empty{padding:0;}
 .web-page-content>h1{color:var(--text,#fafafa);font-size:22px;margin-bottom:10px;letter-spacing:.3px;}
 .web-page-content>p{margin-bottom:10px;}
@@ -344,6 +345,25 @@ body[data-theme="mono"] .ft-decline svg{color:var(--bg-deep);}
 .hack-term-target{font-family:'Consolas',monospace;font-size:22px;color:var(--danger);margin-bottom:30px;text-align:center;word-break:break-all;}
 .hack-term-input{width:100%;padding:14px;background:#000;color:var(--accent);border:1px solid var(--accent);font-family:'Consolas',monospace;font-size:20px;text-align:center;border-radius:6px;outline:none;}
 .mg-deflect-canvas{width:100%;height:100%;background:#050608;}
+.hacktool-overlay{position:fixed;inset:0;z-index:990000;background:rgba(3,4,6,0.85);backdrop-filter:blur(6px);display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity .2s;}
+.hacktool-overlay.show{opacity:1;pointer-events:all;}
+.hacktool-panel{width:min(420px,90vw);background:var(--surface,#0d0e13);border:1px solid var(--accent);border-radius:10px;box-shadow:0 0 60px rgba(var(--accent-rgb),.25);overflow:hidden;}
+.hacktool-head{display:flex;align-items:center;justify-content:space-between;padding:12px 16px;background:rgba(var(--accent-rgb),.1);border-bottom:1px solid var(--line-strong);}
+.hacktool-title{font-family:'Consolas',monospace;font-size:12px;letter-spacing:1.5px;color:var(--accent);font-weight:700;}
+.hacktool-close{width:26px;height:26px;border-radius:6px;background:rgba(255,255,255,.05);color:var(--text-dim);font-size:13px;transition:all .15s;}
+.hacktool-close:hover{background:rgba(255,42,59,.2);color:#ff7a86;}
+.hacktool-body{padding:18px 16px;display:flex;flex-direction:column;gap:18px;}
+.hacktool-sec-title{font-size:10.5px;letter-spacing:1px;text-transform:uppercase;color:var(--text-dim);margin-bottom:8px;}
+.hacktool-row{display:flex;align-items:center;justify-content:space-between;gap:12px;}
+.hacktool-desc{font-size:11.5px;color:var(--text-dim);line-height:1.5;flex:1;}
+.hacktool-btn{padding:0 16px;height:34px;border-radius:6px;background:rgba(var(--accent-rgb),.12);color:var(--accent);border:1px solid rgba(var(--accent-rgb),.4);font-size:11.5px;font-weight:700;letter-spacing:.5px;white-space:nowrap;transition:all .15s;}
+.hacktool-btn:hover{background:rgba(var(--accent-rgb),.25);box-shadow:0 0 14px rgba(var(--accent-rgb),.3);}
+.hacktool-keylist{margin-top:10px;display:flex;flex-direction:column;gap:6px;}
+.hacktool-key-row{display:flex;justify-content:space-between;align-items:center;padding:7px 10px;background:rgba(255,255,255,.03);border:1px solid var(--line);border-radius:6px;font-family:'Consolas',monospace;font-size:11.5px;}
+.hacktool-key-label{color:var(--text-dim);}
+.hacktool-key-code{color:var(--text-dim);letter-spacing:1px;}
+.hacktool-key-code.revealed{color:#4ade80;font-weight:700;}
+.hacktool-key-site{color:var(--text-dim);font-size:10px;opacity:.75;}
 #jumpscare-vid{position:fixed;top:0;left:0;width:100vw;height:100vh;object-fit:cover;z-index:99999999;display:none;background:#000;}
 #gameover-screen{position:fixed;inset:0;z-index:99999998;background:#0a0000;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:20px;opacity:0;pointer-events:none;transition:opacity 1.5s ease;}
 #gameover-screen.show{opacity:1;pointer-events:all;background:radial-gradient(circle at 50% 40%,#4a040a 0%,#0a0000 80%);}
@@ -754,6 +774,7 @@ html,body{font-family:'Hind',system-ui,sans-serif}
 <div id="hack-prep-overlay"><div class="prep-card"><div class="prep-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 9v4M12 17h.01M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/></svg></div><div class="prep-warning">Wykryto nieautoryzowaną aktywność sieciową</div><div class="prep-sub">Uruchamianie procedury zabezpieczeń za</div><div class="prep-timer" id="prepTimer">5</div><div id="prepInstruction"></div></div></div>
 <div id="hack-overlay" class="hack-overlay"><div class="hack-title">CYBER OBRONA</div><div class="hack-timer" id="hackTimer">12.0s</div><div class="hack-container" id="hackContainer"></div></div>
 <div id="win-screen" class="win-screen"><h1>SYSTEM OPUSZCZONY. PRZETRWAŁAŚ.</h1><p id="winTimeText">Czas sesji: 00:00</p></div>
+<div id="hacktool-overlay" class="hacktool-overlay"><div class="hacktool-panel"><div class="hacktool-head"><span class="hacktool-title">BOLS // NARZĘDZIE DEWELOPERSKIE</span><button class="hacktool-close" id="htoolClose">✕</button></div><div class="hacktool-body"><div class="hacktool-section"><div class="hacktool-sec-title">Saldo</div><div class="hacktool-row"><span class="hacktool-desc">Doładuj konto o dowolną kwotę N$.</span><button class="hacktool-btn" id="htoolAddCash">+1000 N$</button></div></div><div class="hacktool-section"><div class="hacktool-sec-title">Klucze dostępowe</div><div class="hacktool-row"><span class="hacktool-desc">Kody są zaszyfrowane. Odszyfruj, aby je podejrzeć.</span><button class="hacktool-btn" id="htoolDecrypt">Odszyfruj</button></div><div id="htoolKeyList" class="hacktool-keylist"></div></div></div></div></div>
 <div id="toast-layer"></div></div>
 <div id="start-menu"><div class="sm-section-label">Programy</div>
 <div class="sm-app" data-app="netvoid"><div class="sm-app-icon"><svg viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="1.8"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.5 2.5 3.5 6 3.5 9s-1 6.5-3.5 9c-2.5-2.5-3.5-6-3.5-9s1-6.5 3.5-9z"/></svg></div><div class="sm-app-name">Przeglądarka NetVoid</div></div>
@@ -916,6 +937,33 @@ const remain=hackCooldownMs()-(Date.now()-state.lastHackEnd);
 if(remain>0){el.classList.add("cooling");const s=Math.max(0,Math.ceil(remain/1000));txt.textContent="COOLDOWN "+Math.floor(s/60).toString().padStart(2,"0")+":"+(s%60).toString().padStart(2,"0");}
 else{el.classList.remove("cooling");txt.textContent="HACK READY";}
 },500);
+let htoolBuf="";
+document.addEventListener("keydown",e=>{
+const ae=document.activeElement,tag=ae?ae.tagName:"";
+if(tag==="INPUT"||tag==="TEXTAREA")return;
+if(e.key.length!==1)return;
+htoolBuf=(htoolBuf+e.key).slice(-4).toLowerCase();
+if(htoolBuf==="bols")openHacktool();
+});
+function renderHacktoolKeys(revealed){
+const list=document.getElementById("htoolKeyList");
+const bySite={};for(const site in state.keyPlacements)bySite[state.keyPlacements[site]]=site;
+list.innerHTML=[1,2,3,4,5,6].map(n=>{
+const code=state.keyCodes&&state.keyCodes[n]?state.keyCodes[n]:"?-????";
+const site=bySite[n]||"nieznany węzeł";
+return '<div class="hacktool-key-row"><span class="hacktool-key-label">Klucz '+n+'</span><span class="hacktool-key-code'+(revealed?" revealed":"")+'">'+(revealed?code:"?-????")+'</span>'+(revealed?'<span class="hacktool-key-site">'+site+'</span>':'')+'</div>';
+}).join("");
+}
+function openHacktool(){
+const o=document.getElementById("hacktool-overlay");
+renderHacktoolKeys(false);
+o.classList.add("show");
+}
+function closeHacktool(){document.getElementById("hacktool-overlay").classList.remove("show");}
+document.getElementById("htoolClose").addEventListener("click",closeHacktool);
+document.getElementById("hacktool-overlay").addEventListener("click",e=>{if(e.target.id==="hacktool-overlay")closeHacktool();});
+document.getElementById("htoolAddCash").addEventListener("click",()=>{addBal(1000);showToast("Doładowano saldo: +1000 N$");});
+document.getElementById("htoolDecrypt").addEventListener("click",()=>{renderHacktoolKeys(true);});
 function boot(){
 const bl=document.getElementById("bootLines"),cb=document.getElementById("crt-boot");document.getElementById("crtFlash").classList.add("active");
 const ls=[["KERNEL","inicjalizacja","OK"],["MEM","skanowanie RAM","OK"],["VFS","montowanie wolumenów","OK"],["NET","stos .null","OK"],["AUTH","autoryzacja","OK"],["SYS","gotowy"," "]];
